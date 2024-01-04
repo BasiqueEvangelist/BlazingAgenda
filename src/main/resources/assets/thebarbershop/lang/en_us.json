@@ -1,0 +1,14 @@
+{
+    "block.thebarbershop.barber_station": "Barber Station",
+    "text.thebarbershop.barber_station_screen": "Barber Station",
+
+    "item.thebarbershop.empty_template": "Empty Template",
+    "item.thebarbershop.template": "Template",
+    "item.thebarbershop.template.notLoaded": {
+        "text": "???",
+        "color": "gray"
+    },
+
+
+    "message.thebarbershop.notEnoughSpace": "Not enough pattern space"
+}

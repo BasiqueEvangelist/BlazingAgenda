@@ -1,0 +1,45 @@
+{
+	"schemaVersion": 1,
+	"id": "thebarbershop",
+	"version": "${version}",
+	"name": "The Barbershop",
+	"description": "Give haircuts to mobs",
+	"authors": [
+		"BasiqueEvangelist"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/thebarbershop",
+		"sources": "https://github.com/BasiqueEvangelist/TheBarbershop"
+	},
+	"license": "LGPL-3.0-only",
+	"icon": "assets/thebarbershop/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"me.basiqueevangelist.barbershop.TheBarbershop"
+		],
+		"client": [
+			"me.basiqueevangelist.barbershop.client.TheBarbershopClient"
+		],
+		"cardinal-components": [
+			"me.basiqueevangelist.barbershop.cca.TheBarbershopCCA"
+		]
+	},
+	"mixins": [
+		"thebarbershop.mixins.json"
+	],
+	"custom": {
+		"cardinal-components": [
+			"thebarbershop:haircut"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.15.3",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"owo": ">=0.11.0",
+		"fabric-api": "*",
+		"fabric-permissions-api-v0": "*",
+		"cardinal-components-entity": "*"
+	}
+}
