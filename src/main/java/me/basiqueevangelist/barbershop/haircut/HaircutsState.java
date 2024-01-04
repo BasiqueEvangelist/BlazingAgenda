@@ -62,7 +62,7 @@ public class HaircutsState extends PersistentState {
         return totalSize;
     }
 
-    public HaircutEntry add(UUID playerId, String name, Identifier targetTexture, byte[] data) {
+    public HaircutEntry add(UUID playerId, String name, byte[] data) {
         UUID haircutId = UUID.randomUUID();
 
         while (haircuts.containsKey(haircutId)) haircutId = UUID.randomUUID();
@@ -75,7 +75,7 @@ public class HaircutsState extends PersistentState {
             throw new RuntimeException(e);
         }
 
-        var entry = new HaircutEntry(haircutId, playerId, name, data.length, targetTexture, haircutsFolder.relativize(imgPath).toString());
+        var entry = new HaircutEntry(haircutId, playerId, name, data.length, haircutsFolder.relativize(imgPath).toString());
         haircuts.put(haircutId, entry);
         return entry;
     }
@@ -117,16 +117,15 @@ public class HaircutsState extends PersistentState {
         return tag;
     }
 
-    public record HaircutEntry(UUID id, UUID ownerId, String name, int sizeInBytes, Identifier targetTexture, String path) {
+    public record HaircutEntry(UUID id, UUID ownerId, String name, int sizeInBytes, String path) {
         public static HaircutEntry read(NbtCompound tag) {
             UUID id = tag.getUuid("UUID");
             UUID ownerId = tag.getUuid("OwnerUUID");
             String name = tag.getString("Name");
             int sizeInBytes = tag.getInt("SizeInBytes");
-            Identifier targetTexture = new Identifier(tag.getString("TargetTexture"));
             String path = tag.getString("Path");
 
-            return new HaircutEntry(id, ownerId, name, sizeInBytes, targetTexture, path);
+            return new HaircutEntry(id, ownerId, name, sizeInBytes, path);
         }
 
         public NbtCompound write(NbtCompound tag) {
@@ -134,7 +133,6 @@ public class HaircutsState extends PersistentState {
             tag.putUuid("OwnerUUID", ownerId);
             tag.putString("Name", name);
             tag.putInt("SizeInBytes", sizeInBytes);
-            tag.putString("TargetTexture", targetTexture.toString());
             tag.putString("Path", path);
 
             return tag;

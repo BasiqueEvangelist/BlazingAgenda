@@ -101,19 +101,10 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
         nameBox.setMaxLength(100);
 
-        TextBoxComponent targetIdBox;
-        flow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
-            .child(Components.label(Text.literal("Target Texture: ").formatted(Formatting.BLACK)))
-            .child(targetIdBox = Components.textBox(Sizing.fixed(200)))
-            .verticalAlignment(VerticalAlignment.CENTER));
-
-        targetIdBox.setMaxLength(100);
-
         ButtonComponent button = Components.button(Text.literal("Submit"), bruh -> {
             String name = nameBox.getText();
-            Identifier targetId = new Identifier(targetIdBox.getText());
 
-            getScreenHandler().sendMessage(new BarberStationScreenHandler.UploadHaircut(name, targetId, data));
+            getScreenHandler().sendMessage(new BarberStationScreenHandler.UploadHaircut(name, data));
             flow.parent().remove();
 
         });

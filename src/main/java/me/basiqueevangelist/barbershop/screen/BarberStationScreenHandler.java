@@ -105,7 +105,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
                 throw new RuntimeException("explosion", e);
             }
 
-            haircuts.add(new HaircutEntry(haircut.id(), haircut.name(), haircut.targetTexture(), data));
+            haircuts.add(new HaircutEntry(haircut.id(), haircut.name(), data));
         }
 
         sendMessage(new HaircutList(haircuts));
@@ -120,7 +120,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
             return;
         }
 
-        var haircut = state.add(player().getUuid(), packet.name(), packet.targetTexture(), packet.pngData());
+        var haircut = state.add(player().getUuid(), packet.name(), packet.pngData());
 
         sendMessage(new UploadSucceeded(haircut.name(), haircut.id()));
     }
@@ -135,7 +135,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
         return true;
     }
 
-    public record UploadHaircut(String name, Identifier targetTexture, byte[] pngData) { }
+    public record UploadHaircut(String name, byte[] pngData) { }
     public record UploadSucceeded(String name, UUID id) { }
     public record UploadRejected(String name, Text errorMessage) { }
 
@@ -145,5 +145,5 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public record ListHaircuts() { }
     public record HaircutList(List<HaircutEntry> haircuts) { }
 
-    public record HaircutEntry(UUID id, String name, Identifier targetTexture, byte[] data) { }
+    public record HaircutEntry(UUID id, String name, byte[] data) { }
 }

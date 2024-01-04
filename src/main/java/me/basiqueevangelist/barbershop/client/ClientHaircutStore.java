@@ -53,7 +53,6 @@ public final class ClientHaircutStore {
             entry.ownerId = packet.ownerId();
             entry.ownerName = packet.ownerName().orElse(null);
             entry.name = packet.name();
-            entry.targetTexture = packet.targetTexture();
             entry.data = packet.data();
             entry.filledIn = true;
         } catch (ExecutionException e) {
@@ -67,7 +66,6 @@ public final class ClientHaircutStore {
         private UUID ownerId;
         private String ownerName;
         private String name;
-        private Identifier targetTexture;
         private byte[] data;
         private DownloadedTexture tx;
 
@@ -89,10 +87,6 @@ public final class ClientHaircutStore {
 
         public @NotNull String name() {
             return name;
-        }
-
-        public @NotNull Identifier targetTexture() {
-            return targetTexture;
         }
 
         public @NotNull DownloadedTexture texture() {

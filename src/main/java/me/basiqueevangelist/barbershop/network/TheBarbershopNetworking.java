@@ -41,7 +41,6 @@ public class TheBarbershopNetworking {
                 haircut.ownerId(),
                 ownerName,
                 haircut.name(),
-                haircut.targetTexture(),
                 data
             ));
         });

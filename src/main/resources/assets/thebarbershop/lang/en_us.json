@@ -23,6 +23,13 @@
             "color": "dark_gray"
         }
     ],
+    "item.thebarbershop.template.haircutId": [
+        {
+            "text": "ID: ",
+            "color": "dark_gray"
+        },
+        { "index": 0 }
+    ],
     "item.thebarbershop.scissors": "Scissors",
 
     "itemGroup.thebarbershop.item_group": "The Barbershop",

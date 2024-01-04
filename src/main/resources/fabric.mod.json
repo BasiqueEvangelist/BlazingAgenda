@@ -3,7 +3,7 @@
 	"id": "thebarbershop",
 	"version": "${version}",
 	"name": "The Barbershop",
-	"description": "Give haircuts to mobs",
+	"description": "Player-made synced mob skins",
 	"authors": [
 		"BasiqueEvangelist"
 	],

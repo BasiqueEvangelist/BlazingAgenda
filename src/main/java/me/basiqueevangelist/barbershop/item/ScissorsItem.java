@@ -4,7 +4,10 @@ import me.basiqueevangelist.barbershop.TheBarbershopSounds;
 import me.basiqueevangelist.barbershop.cca.HaircutComponent;
 import me.basiqueevangelist.barbershop.cca.TheBarbershopCCA;
 import me.basiqueevangelist.barbershop.haircut.HaircutsState;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,14 +25,29 @@ public class ScissorsItem extends Item {
         super(settings);
     }
 
+    static {
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+            if (player.isSpectator()) return ActionResult.PASS;
+
+            var stack = player.getStackInHand(hand);
+
+            if (stack.getItem() instanceof ScissorsItem scissors) {
+                return scissors.useOn(stack, player, entity, hand);
+            }
+
+            return ActionResult.PASS;
+        });
+    }
+
     @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return ingredient.isOf(Items.IRON_INGOT);
     }
 
-    @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    public ActionResult useOn(ItemStack stack, PlayerEntity user, Entity entity, Hand hand) {
         if (hand == Hand.OFF_HAND) return ActionResult.PASS;
+
+        if (entity instanceof EnderDragonPart part) entity = part.owner;
 
         ItemStack offStack = user.getOffHandStack();
         UUID haircutId = Util.NIL_UUID;

@@ -9,6 +9,7 @@
     },
     "client": [
         "EntityRenderDispatcherMixin",
-        "RenderLayerMixin"
+        "RenderLayerMixin",
+        "VertexConsumerProviderImmediateMixin"
     ]
 }
