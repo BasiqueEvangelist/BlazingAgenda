@@ -54,7 +54,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             .padding(Insets.of(5));
 
         mainLayout
-            .child(Components.label(Text.translatable("text.thebarbershop.barber_station_screen"))
+            .child(Components.label(Text.translatable("text.thebarbershop.barber_station_screen").formatted(Formatting.BLACK))
                 .margins(Insets.bottom(10)));
 
         haircutsContainer
@@ -95,15 +95,17 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
         TextBoxComponent nameBox;
         flow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
-            .child(Components.label(Text.literal("Name: ")))
-            .child(nameBox = Components.textBox(Sizing.fixed(100))));
+            .child(Components.label(Text.literal("Name: ").formatted(Formatting.BLACK)))
+            .child(nameBox = Components.textBox(Sizing.fixed(200)))
+            .verticalAlignment(VerticalAlignment.CENTER));
 
         nameBox.setMaxLength(100);
 
         TextBoxComponent targetIdBox;
         flow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
-            .child(Components.label(Text.literal("Target Texture: ")))
-            .child(targetIdBox = Components.textBox(Sizing.fixed(100))));
+            .child(Components.label(Text.literal("Target Texture: ").formatted(Formatting.BLACK)))
+            .child(targetIdBox = Components.textBox(Sizing.fixed(200)))
+            .verticalAlignment(VerticalAlignment.CENTER));
 
         targetIdBox.setMaxLength(100);
 
@@ -146,7 +148,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
                 UISounds.playButtonSound();
 
-                getScreenHandler().sendMessage(new BarberStationScreenHandler.ExchangeHaircut(haircut.id(), Screen.hasShiftDown() ? 64 : 1));
+                getScreenHandler().sendMessage(new BarberStationScreenHandler.ExchangeHaircut(haircut.id(), 1));
 
                 return true;
             });
@@ -162,7 +164,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             });
 
             haircutFlow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                .child(Components.label(Text.of(haircut.name()))
+                .child(Components.label(Text.literal(haircut.name()).formatted(Formatting.BLACK))
                     .margins(Insets.right(5)))
                 .child(cross));
 

@@ -25,5 +25,8 @@ public class TheBarbershop implements ModInitializer {
 		FieldRegistrationHandler.register(TheBarbershopBlocks.class, MOD_ID, false);
 		FieldRegistrationHandler.register(TheBarbershopScreenHandlers.class, MOD_ID, false);
 		FieldRegistrationHandler.register(TheBarbershopItems.class, MOD_ID, false);
+		FieldRegistrationHandler.processSimple(TheBarbershopSounds.class, false);
+
+		TheBarbershopItems.GROUP.initialize();
 	}
 }

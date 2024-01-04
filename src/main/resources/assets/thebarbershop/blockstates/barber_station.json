@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "thebarbershop:block/barber_station"
+        }
+    }
+}

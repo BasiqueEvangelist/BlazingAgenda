@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
 public class TheBarbershopCCA implements EntityComponentInitializer {
-    public static final ComponentKey<HaircutComponent> HAIRCUT = ComponentRegistry.getOrCreate(new Identifier(TheBarbershop.MOD_ID, "haircut"), HaircutComponent.class);
+    public static final ComponentKey<HaircutComponent> HAIRCUT = ComponentRegistry.getOrCreate(TheBarbershop.id("haircut"), HaircutComponent.class);
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {

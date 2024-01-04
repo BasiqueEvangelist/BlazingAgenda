@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -29,6 +30,19 @@ public class TemplateItem extends Item {
 
     public TemplateItem(Item.Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public Text getName(ItemStack stack) {
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) return getName();
+        if (!stack.has(HAIRCUT)) return getName();
+
+        var entry = ClientHaircutStore.get(stack.get(HAIRCUT));
+        if (entry == null) {
+            return Text.translatable("item.thebarbershop.template.withName", Text.translatable("item.thebarbershop.template.notLoaded"));
+        }
+
+        return Text.translatable("item.thebarbershop.template.withName", entry.name());
     }
 
     @Override
@@ -55,15 +69,6 @@ public class TemplateItem extends Item {
             tooltip.add(Text.literal(entry.targetTexture().toString())
                 .formatted(Formatting.DARK_GRAY));
         }
-    }
-
-    @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if (!user.getEntityWorld().isClient) {
-            entity.getComponent(TheBarbershopCCA.HAIRCUT).setHaircutId(stack.get(HAIRCUT));
-        }
-
-        return ActionResult.SUCCESS;
     }
 
     @Override

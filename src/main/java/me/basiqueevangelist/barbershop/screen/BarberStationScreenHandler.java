@@ -1,5 +1,6 @@
 package me.basiqueevangelist.barbershop.screen;
 
+import io.wispforest.owo.client.screens.SlotGenerator;
 import me.basiqueevangelist.barbershop.haircut.HaircutLimits;
 import me.basiqueevangelist.barbershop.haircut.HaircutsState;
 import me.basiqueevangelist.barbershop.item.TemplateItem;
@@ -35,6 +36,9 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public BarberStationScreenHandler(int syncId, PlayerInventory inv) {
         super(TheBarbershopScreenHandlers.BARBER_STATION, syncId);
         this.inv = inv;
+
+        SlotGenerator.begin(this::addSlot, 0, -10000)
+            .playerInventory(inv);
 
         addServerboundMessage(UploadHaircut.class, this::onUploadHaircut);
         addServerboundMessage(ListHaircuts.class, this::onListHaircuts);
