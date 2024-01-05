@@ -37,5 +37,6 @@
 
     "subtitles.thebarbershop.scissors.use": "Scissors click",
 
-    "message.thebarbershop.notEnoughSpace": "Not enough pattern space"
+    "message.thebarbershop.notEnoughSpace": "Not enough pattern space",
+    "message.thebarbershop.loading": "Loading..."
 }

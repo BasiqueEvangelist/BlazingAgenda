@@ -60,7 +60,12 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
         haircutsContainer
             .gap(5);
 
-        mainLayout.child(haircutsContainer);
+        haircutsContainer
+            .child(Containers.horizontalFlow(Sizing.fill(100), Sizing.content())
+                .child(Components.label(Text.translatable("message.thebarbershop.loading")))
+                .horizontalAlignment(HorizontalAlignment.CENTER));
+
+        mainLayout.child(Containers.verticalScroll(Sizing.content(), Sizing.fill(100), haircutsContainer));
 
         ((OwoScreenHandlerExtension) getScreenHandler()).owo$attachToPlayer(MinecraftClient.getInstance().player);
         getScreenHandler().sendMessage(new BarberStationScreenHandler.ListHaircuts());
@@ -124,7 +129,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
         for (var haircut : haircuts.haircuts()) {
             var tx = new DownloadedTexture(haircut.data());
 
-            var haircutFlow = Containers.verticalFlow(Sizing.content(), Sizing.content());
+            var haircutFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
             haircutFlow
                 .gap(2)
                 .padding(Insets.of(5))
