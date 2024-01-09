@@ -1,6 +1,7 @@
 {
     "block.thebarbershop.barber_station": "Barber Station",
     "text.thebarbershop.barber_station_screen": "Barber Station",
+    "text.thebarbershop.drag_or_click_to_add": "Drag and drop or click to add haircut",
 
     "item.thebarbershop.empty_template": "Empty Template",
     "item.thebarbershop.template": "Template",

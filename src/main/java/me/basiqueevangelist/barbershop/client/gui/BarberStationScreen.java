@@ -116,7 +116,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
         flow.child(button);
 
-        this.uiAdapter.rootComponent.child(Containers.overlay(flow));
+        this.uiAdapter.rootComponent.child(Containers.overlay(flow)
+            .zIndex(1000));
     }
 
     public void uploadSucceeded(BarberStationScreenHandler.UploadSucceeded packet) {
@@ -124,47 +125,82 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
     }
 
     public void haircutListReceived(BarberStationScreenHandler.HaircutList haircuts) {
-        haircutsContainer.clearChildren();
+        haircutsContainer.<FlowLayout>configure(container -> {
+            container.clearChildren();
 
-        for (var haircut : haircuts.haircuts()) {
-            var tx = new DownloadedTexture(haircut.data());
+            for (var haircut : haircuts.haircuts()) {
+                var tx = new DownloadedTexture(haircut.data());
 
-            var haircutFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
-            haircutFlow
+                var haircutFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
+                haircutFlow
+                    .gap(2)
+                    .padding(Insets.of(5))
+                    .surface(Surface.PANEL)
+                    .horizontalAlignment(HorizontalAlignment.CENTER);
+
+                var imgComponent = tx.toComponent();
+                imgComponent
+                    .preserveAspectRatio(true)
+                    .cursorStyle(CursorStyle.HAND)
+                    .horizontalSizing(Sizing.fill(100));
+
+                imgComponent.mouseDown().subscribe((mouseX, mouseY, button) -> {
+                    if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+
+                    UISounds.playButtonSound();
+
+                    getScreenHandler().sendMessage(new BarberStationScreenHandler.ExchangeHaircut(haircut.id(), 1));
+
+                    return true;
+                });
+
+                haircutFlow.child(Containers.verticalFlow(Sizing.fill(100), Sizing.fill(85))
+                    .child(imgComponent));
+
+                var cross = Components.label(Text.literal("❌")
+                    .formatted(Formatting.RED));
+
+                GuiUtil.semiButton(cross, () -> {
+                    haircutFlow.remove();
+                    getScreenHandler().sendMessage(new BarberStationScreenHandler.DeleteHaircut(haircut.id()));
+                });
+
+                haircutFlow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
+                    .child(Components.label(Text.literal(haircut.name()).formatted(Formatting.BLACK))
+                        .margins(Insets.right(5)))
+                    .child(cross));
+
+                container.child(haircutFlow);
+            }
+
+            var addFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
+
+            addFlow
                 .gap(2)
                 .padding(Insets.of(5))
                 .surface(Surface.PANEL)
-                .horizontalAlignment(HorizontalAlignment.CENTER);
+                .horizontalAlignment(HorizontalAlignment.CENTER)
+                .verticalAlignment(VerticalAlignment.CENTER);
 
-            var imgComponent = tx.toComponent();
-            imgComponent.cursorStyle(CursorStyle.HAND);
+            addFlow.child(Components.label(Text.translatable("text.thebarbershop.drag_or_click_to_add").formatted(Formatting.BLACK))
+                .horizontalTextAlignment(HorizontalAlignment.CENTER)
+                .horizontalSizing(Sizing.fill(100)));
 
-            imgComponent.mouseDown().subscribe((mouseX, mouseY, button) -> {
+            addFlow.mouseDown().subscribe((mouseX, mouseY, button) -> {
                 if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
 
                 UISounds.playButtonSound();
 
-                getScreenHandler().sendMessage(new BarberStationScreenHandler.ExchangeHaircut(haircut.id(), 1));
+                var imgPath = DialogUtil.openFileDialog("Open haircut image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false);
+
+                if (imgPath != null) {
+                    filesDragged(List.of(Path.of(imgPath)));
+                }
 
                 return true;
             });
 
-            haircutFlow.child(imgComponent);
-
-            var cross = Components.label(Text.literal("❌")
-                .formatted(Formatting.RED));
-
-            GuiUtil.semiButton(cross, () -> {
-                haircutFlow.remove();
-                getScreenHandler().sendMessage(new BarberStationScreenHandler.DeleteHaircut(haircut.id()));
-            });
-
-            haircutFlow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                .child(Components.label(Text.literal(haircut.name()).formatted(Formatting.BLACK))
-                    .margins(Insets.right(5)))
-                .child(cross));
-
-            haircutsContainer.child(haircutFlow);
-        }
+            container.child(addFlow);
+        });
     }
 }

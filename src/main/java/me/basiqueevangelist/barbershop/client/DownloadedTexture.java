@@ -43,7 +43,7 @@ public class DownloadedTexture implements AutoCloseable {
         return tex.getImage();
     }
 
-    public TextureComponent toComponent() {
+    public TxComponent toComponent() {
         return new TxComponent();
     }
 
@@ -66,6 +66,8 @@ public class DownloadedTexture implements AutoCloseable {
     }
 
     public class TxComponent extends TextureComponent {
+        private boolean preserveAspectRatio;
+
         protected TxComponent() {
             super(
                 DownloadedTexture.this.id,
@@ -76,6 +78,50 @@ public class DownloadedTexture implements AutoCloseable {
                 DownloadedTexture.this.image().getWidth(),
                 DownloadedTexture.this.image().getHeight()
             );
+        }
+
+        @Override
+        protected void applySizing() {
+            if (!preserveAspectRatio) {
+                super.applySizing();
+                return;
+            }
+
+            var hSize = horizontalSizing.get();
+            var vSize = verticalSizing.get();
+            var margins = this.margins.get();
+
+            int hAvail = this.space.width() - margins.horizontal();
+            int vAvail = this.space.height() - margins.vertical();
+
+            if (vSize.isContent() && !hSize.isContent()) {
+                this.width = hSize.inflate(hAvail, this::determineHorizontalContentSize);
+                this.height = width * image().getHeight() / image().getWidth();
+
+                if (height > vAvail) {
+                    this.height = vAvail;
+                    this.width = height * image().getWidth() / image().getHeight();
+                }
+            }
+
+            if (!vSize.isContent() && hSize.isContent()) {
+                this.height = vSize.inflate(vAvail, this::determineVerticalContentSize);
+                this.width = height * image().getWidth() / image().getHeight();
+
+                if (width > hAvail) {
+                    this.width = hAvail;
+                    this.height = width * image().getHeight() / image().getWidth();
+                }
+            }
+        }
+
+        public boolean preserveAspectRatio() {
+            return preserveAspectRatio;
+        }
+
+        public TxComponent preserveAspectRatio(boolean preserveAspectRatio) {
+            this.preserveAspectRatio = preserveAspectRatio;
+            return this;
         }
     }
 }

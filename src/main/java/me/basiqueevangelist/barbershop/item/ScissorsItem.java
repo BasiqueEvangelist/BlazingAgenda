@@ -5,6 +5,7 @@ import me.basiqueevangelist.barbershop.cca.HaircutComponent;
 import me.basiqueevangelist.barbershop.cca.TheBarbershopCCA;
 import me.basiqueevangelist.barbershop.haircut.HaircutsState;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
@@ -16,7 +17,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.Util;
+import net.minecraft.world.World;
 
 import java.util.UUID;
 
@@ -68,5 +71,32 @@ public class ScissorsItem extends Item {
         stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
 
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+
+        if (hand == Hand.OFF_HAND) return TypedActionResult.fail(stack);
+
+        ItemStack offStack = user.getOffHandStack();
+        UUID haircutId = Util.NIL_UUID;
+        HaircutComponent component = user.getComponent(TheBarbershopCCA.HAIRCUT);
+
+        if (offStack.isOf(TheBarbershopItems.TEMPLATE)) {
+            haircutId = offStack.getOr(TemplateItem.HAIRCUT, Util.NIL_UUID);
+        }
+
+        if (component.haircutId().equals(haircutId))
+            return TypedActionResult.fail(stack);
+
+        user.getWorld().playSoundFromEntity(user, user, TheBarbershopSounds.SCISSORS_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+        if (user.getWorld().isClient) return TypedActionResult.success(stack);
+
+        component.setHaircutId(haircutId);
+        stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
+
+        return TypedActionResult.success(stack);
     }
 }
