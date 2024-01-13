@@ -11,12 +11,10 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,7 +29,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public Consumer<UploadSucceeded> uploadSucceeded;
     public Consumer<UploadRejected> uploadRejected;
 
-    public Consumer<HaircutList> haircutList;
+    public Consumer<InfoResponse> infoResponse;
 
     public BarberStationScreenHandler(int syncId, PlayerInventory inv) {
         super(TheBarbershopScreenHandlers.BARBER_STATION, syncId);
@@ -41,7 +39,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
             .playerInventory(inv);
 
         addServerboundMessage(UploadHaircut.class, this::onUploadHaircut);
-        addServerboundMessage(ListHaircuts.class, this::onListHaircuts);
+        addServerboundMessage(RequestInfo.class, this::onRequestInfo);
         addServerboundMessage(DeleteHaircut.class, this::onDeleteHaircut);
         addServerboundMessage(ExchangeHaircut.class, this::onExchangeHaircut);
 
@@ -53,8 +51,8 @@ public class BarberStationScreenHandler extends ScreenHandler {
             if (uploadRejected != null) uploadRejected.accept(packet);
         });
 
-        addClientboundMessage(HaircutList.class, packet -> {
-            if (haircutList != null) haircutList.accept(packet);
+        addClientboundMessage(InfoResponse.class, packet -> {
+            if (infoResponse != null) infoResponse.accept(packet);
         });
     }
 
@@ -89,7 +87,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
         state.deleteHaircut(cut);
     }
 
-    private void onListHaircuts(ListHaircuts packet) {
+    private void onRequestInfo(RequestInfo packet) {
         HaircutsState state = HaircutsState.get(player().getServer());
         List<HaircutEntry> haircuts = new ArrayList<>();
 
@@ -108,7 +106,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
             haircuts.add(new HaircutEntry(haircut.id(), haircut.name(), data));
         }
 
-        sendMessage(new HaircutList(haircuts));
+        sendMessage(new InfoResponse(haircuts, HaircutLimits.maxTotalSize((ServerPlayerEntity) player())));
     }
 
     private void onUploadHaircut(UploadHaircut packet) {
@@ -142,8 +140,8 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public record DeleteHaircut(UUID id) {}
     public record ExchangeHaircut(UUID id, int max) {}
 
-    public record ListHaircuts() { }
-    public record HaircutList(List<HaircutEntry> haircuts) { }
+    public record RequestInfo() { }
+    public record InfoResponse(List<HaircutEntry> haircuts, int maxTotalSize) { }
 
     public record HaircutEntry(UUID id, String name, byte[] data) { }
 }

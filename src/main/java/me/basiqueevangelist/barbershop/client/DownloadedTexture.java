@@ -60,7 +60,8 @@ public class DownloadedTexture implements AutoCloseable {
 
             if (manager.getOrDefault(id, null) == null) return;
 
-            LOGGER.warn("Texture {} wasn't closed at GC", id);
+            // TODO: readd and fix this
+//            LOGGER.warn("Texture {} wasn't closed at GC", id);
             manager.destroyTexture(id);
         }
     }

@@ -3,6 +3,7 @@ package me.basiqueevangelist.barbershop.client.gui;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
+import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
@@ -12,11 +13,9 @@ import io.wispforest.owo.util.pond.OwoScreenHandlerExtension;
 import me.basiqueevangelist.barbershop.client.DownloadedTexture;
 import me.basiqueevangelist.barbershop.screen.BarberStationScreenHandler;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -27,6 +26,7 @@ import java.util.List;
 
 public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, BarberStationScreenHandler> {
     private final FlowLayout haircutsContainer = Containers.ltrTextFlow(Sizing.fill(100), Sizing.content());
+    private final LabelComponent usedLabel = Components.label(Text.literal(""));
 
     public BarberStationScreen(BarberStationScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -34,7 +34,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
         handler.uploadSucceeded = this::uploadSucceeded;
 //        handler.uploadRejected = this::uploadRejected;
 
-        handler.haircutList = this::haircutListReceived;
+        handler.infoResponse = this::infoReceived;
 
         this.playerInventoryTitleY = -10000;
     }
@@ -54,7 +54,10 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             .padding(Insets.of(5));
 
         mainLayout
-            .child(Components.label(Text.translatable("text.thebarbershop.barber_station_screen").formatted(Formatting.BLACK))
+            .child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
+                .child(Components.label(Text.translatable("text.thebarbershop.barber_station_screen").formatted(Formatting.BLACK))
+                    .margins(Insets.right(5)))
+                .child(usedLabel)
                 .margins(Insets.bottom(10)));
 
         haircutsContainer
@@ -68,7 +71,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
         mainLayout.child(Containers.verticalScroll(Sizing.content(), Sizing.fill(100), haircutsContainer));
 
         ((OwoScreenHandlerExtension) getScreenHandler()).owo$attachToPlayer(MinecraftClient.getInstance().player);
-        getScreenHandler().sendMessage(new BarberStationScreenHandler.ListHaircuts());
+        getScreenHandler().sendMessage(new BarberStationScreenHandler.RequestInfo());
     }
 
     @Override
@@ -121,10 +124,10 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
     }
 
     public void uploadSucceeded(BarberStationScreenHandler.UploadSucceeded packet) {
-        getScreenHandler().sendMessage(new BarberStationScreenHandler.ListHaircuts());
+        getScreenHandler().sendMessage(new BarberStationScreenHandler.RequestInfo());
     }
 
-    public void haircutListReceived(BarberStationScreenHandler.HaircutList haircuts) {
+    public void infoReceived(BarberStationScreenHandler.InfoResponse haircuts) {
         haircutsContainer.<FlowLayout>configure(container -> {
             container.clearChildren();
 
@@ -163,6 +166,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 GuiUtil.semiButton(cross, () -> {
                     haircutFlow.remove();
                     getScreenHandler().sendMessage(new BarberStationScreenHandler.DeleteHaircut(haircut.id()));
+                    getScreenHandler().sendMessage(new BarberStationScreenHandler.RequestInfo());
                 });
 
                 haircutFlow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
@@ -180,27 +184,45 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 .padding(Insets.of(5))
                 .surface(Surface.PANEL)
                 .horizontalAlignment(HorizontalAlignment.CENTER)
-                .verticalAlignment(VerticalAlignment.CENTER);
+                .verticalAlignment(VerticalAlignment.CENTER)
+                .cursorStyle(CursorStyle.HAND);
 
             addFlow.child(Components.label(Text.translatable("text.thebarbershop.drag_or_click_to_add").formatted(Formatting.BLACK))
                 .horizontalTextAlignment(HorizontalAlignment.CENTER)
-                .horizontalSizing(Sizing.fill(100)));
+                .horizontalSizing(Sizing.fill(100))
+                .cursorStyle(CursorStyle.HAND));
 
             addFlow.mouseDown().subscribe((mouseX, mouseY, button) -> {
                 if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
 
                 UISounds.playButtonSound();
 
-                var imgPath = DialogUtil.openFileDialog("Open haircut image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false);
-
-                if (imgPath != null) {
-                    filesDragged(List.of(Path.of(imgPath)));
-                }
+                DialogUtil.openFileDialogAsync("Open haircut image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
+                    .thenAcceptAsync(imgPath -> {
+                        if (imgPath != null) {
+                            filesDragged(List.of(Path.of(imgPath)));
+                        }
+                    }, MinecraftClient.getInstance());
 
                 return true;
             });
 
             container.child(addFlow);
         });
+
+        int totalUsed = 0;
+
+        for (var haircut : haircuts.haircuts()) {
+            totalUsed += haircut.data().length;
+        }
+
+        usedLabel.text(Text.translatable("text.thebarbershop.total_used", toKiB(totalUsed), toKiB(haircuts.maxTotalSize()))
+            .formatted(Formatting.BLACK));
+    }
+
+    private static double toKiB(int bytes) {
+        double kib = (double)bytes / 1024;
+
+        return (double) (int)(kib * 10) / 10;
     }
 }

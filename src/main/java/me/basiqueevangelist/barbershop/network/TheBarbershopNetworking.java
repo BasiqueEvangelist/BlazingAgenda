@@ -3,15 +3,10 @@ package me.basiqueevangelist.barbershop.network;
 import com.mojang.authlib.GameProfile;
 import io.wispforest.owo.network.OwoNetChannel;
 import me.basiqueevangelist.barbershop.TheBarbershop;
-import me.basiqueevangelist.barbershop.haircut.HaircutLimits;
 import me.basiqueevangelist.barbershop.haircut.HaircutsState;
-import me.basiqueevangelist.barbershop.screen.BarberStationScreenHandler;
-import net.minecraft.text.Text;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class TheBarbershopNetworking {
@@ -24,6 +19,8 @@ public class TheBarbershopNetworking {
             HaircutsState state = HaircutsState.get(access.runtime());
 
             var haircut = state.haircuts().get(packet.haircutId());
+
+            if (haircut == null) return;
 
             byte[] data;
 
