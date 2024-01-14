@@ -6,7 +6,6 @@ import me.basiqueevangelist.barbershop.network.HaircutS2CPacket;
 import me.basiqueevangelist.barbershop.network.RequestHaircutC2SPacket;
 import me.basiqueevangelist.barbershop.network.TheBarbershopNetworking;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,9 +22,7 @@ public final class ClientHaircutStore {
         .build();
 
     public static void init() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            CACHE.cleanUp();
-        });
+        ClientTickEvents.END_CLIENT_TICK.register(client -> CACHE.cleanUp());
     }
 
     public static @Nullable Entry get(UUID id) {

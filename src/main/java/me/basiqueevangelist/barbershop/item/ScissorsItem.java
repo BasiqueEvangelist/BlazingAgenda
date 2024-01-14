@@ -3,18 +3,14 @@ package me.basiqueevangelist.barbershop.item;
 import me.basiqueevangelist.barbershop.TheBarbershopSounds;
 import me.basiqueevangelist.barbershop.cca.HaircutComponent;
 import me.basiqueevangelist.barbershop.cca.TheBarbershopCCA;
-import me.basiqueevangelist.barbershop.haircut.HaircutsState;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -77,7 +73,8 @@ public class ScissorsItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
 
-        if (hand == Hand.OFF_HAND) return TypedActionResult.fail(stack);
+        if (hand == Hand.OFF_HAND) return TypedActionResult.pass(stack);
+        if (!user.isSneaking()) return TypedActionResult.pass(stack);
 
         ItemStack offStack = user.getOffHandStack();
         UUID haircutId = Util.NIL_UUID;

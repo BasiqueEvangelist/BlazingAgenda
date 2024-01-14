@@ -1,3 +1,14 @@
 {
-    "parent": "minecraft:item/paper"
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "thebarbershop:item/template"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "thebarbershop:is_filled": 1
+            },
+            "model": "thebarbershop:item/filled_template"
+        }
+    ]
 }

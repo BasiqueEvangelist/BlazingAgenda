@@ -1,8 +1,5 @@
 package me.basiqueevangelist.barbershop.network;
 
-import com.mojang.authlib.GameProfile;
-import net.minecraft.util.Identifier;
-
 import java.util.Optional;
 import java.util.UUID;
 

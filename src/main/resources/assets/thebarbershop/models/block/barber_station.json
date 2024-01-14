@@ -1,3 +1,12 @@
 {
-    "parent": "minecraft:block/fletching_table"
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "down": "minecraft:block/birch_planks",
+        "east": "thebarbershop:block/barber_station_side",
+        "north": "thebarbershop:block/barber_station_side",
+        "particle": "thebarbershop:block/barber_station_side",
+        "south": "thebarbershop:block/barber_station_side",
+        "up": "thebarbershop:block/barber_station_top",
+        "west": "thebarbershop:block/barber_station_side"
+    }
 }

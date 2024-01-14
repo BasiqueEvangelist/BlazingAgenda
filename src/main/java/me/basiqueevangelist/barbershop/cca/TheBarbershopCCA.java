@@ -6,7 +6,6 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import me.basiqueevangelist.barbershop.TheBarbershop;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
 
 public class TheBarbershopCCA implements EntityComponentInitializer {
     public static final ComponentKey<HaircutComponent> HAIRCUT = ComponentRegistry.getOrCreate(TheBarbershop.id("haircut"), HaircutComponent.class);

@@ -1,8 +1,6 @@
 package me.basiqueevangelist.barbershop;
 
-import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
-import me.basiqueevangelist.barbershop.cca.TheBarbershopCCA;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;

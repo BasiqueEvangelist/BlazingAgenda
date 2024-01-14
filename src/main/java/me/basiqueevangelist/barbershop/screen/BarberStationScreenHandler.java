@@ -70,7 +70,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
         var template = ItemVariant.of(TheBarbershopItems.TEMPLATE, tag);
 
         try (var tx = Transaction.openOuter()) {
-            var total = storage.extract(ItemVariant.of(TheBarbershopItems.EMPTY_TEMPLATE), packet.max(), tx);
+            var total = storage.extract(ItemVariant.of(TheBarbershopItems.TEMPLATE), packet.max(), tx);
 
             storage.offerOrDrop(template, total, tx);
 

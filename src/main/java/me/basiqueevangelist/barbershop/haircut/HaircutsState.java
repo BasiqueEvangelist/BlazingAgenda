@@ -4,22 +4,21 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.world.PersistentState;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class HaircutsState extends PersistentState {
     private final Map<UUID, HaircutEntry> haircuts = new HashMap<>();
-    private final MinecraftServer server;
     private final Path haircutsFolder;
 
     private HaircutsState(MinecraftServer server) {
-        this.server = server;
         this.haircutsFolder = server.getSavePath(WorldSavePath.ROOT).resolve("data").resolve("haircuts").normalize();
 
         try {
