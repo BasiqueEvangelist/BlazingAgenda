@@ -25,6 +25,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, BarberStationScreenHandler> {
+    private static final Surface SURFACE = Surface.flat(0xFFCCCCCC).and(Surface.outline(0xFF5800FF));
+
     private final FlowLayout haircutsContainer = Containers.ltrTextFlow(Sizing.fill(100), Sizing.content());
     private final LabelComponent usedLabel = Components.label(Text.literal(""));
 
@@ -49,7 +51,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             .horizontalAlignment(HorizontalAlignment.CENTER);
 
         mainLayout
-            .surface(Surface.PANEL)
+            .surface(SURFACE)
             .horizontalAlignment(HorizontalAlignment.CENTER)
             .padding(Insets.of(5));
 
@@ -87,7 +89,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
         flow
             .gap(2)
             .padding(Insets.of(5))
-            .surface(Surface.PANEL)
+            .surface(SURFACE)
             .horizontalAlignment(HorizontalAlignment.CENTER);
 
         byte[] data;
@@ -138,8 +140,9 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 haircutFlow
                     .gap(2)
                     .padding(Insets.of(5))
-                    .surface(Surface.PANEL)
-                    .horizontalAlignment(HorizontalAlignment.CENTER);
+                    .surface(SURFACE)
+                    .horizontalAlignment(HorizontalAlignment.CENTER)
+                    .margins(Insets.bottom(5));
 
                 var imgComponent = tx.toComponent();
                 imgComponent
@@ -182,7 +185,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             addFlow
                 .gap(2)
                 .padding(Insets.of(5))
-                .surface(Surface.PANEL)
+                .surface(SURFACE)
                 .horizontalAlignment(HorizontalAlignment.CENTER)
                 .verticalAlignment(VerticalAlignment.CENTER)
                 .cursorStyle(CursorStyle.HAND);
