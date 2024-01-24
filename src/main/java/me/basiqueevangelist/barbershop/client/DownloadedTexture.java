@@ -6,6 +6,7 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
+import org.lwjgl.system.MemoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +26,16 @@ public class DownloadedTexture implements AutoCloseable {
     public DownloadedTexture(byte[] data) {
         this.id = new Identifier("thebarbershop", "downloaded/" + UUID.randomUUID().toString().toLowerCase(Locale.ROOT));
 
+        var imgBuf = MemoryUtil.memAlloc(data.length);
         try {
-            this.tex = new NativeImageBackedTexture(NativeImage.read(data));
+            imgBuf.put(data);
+            imgBuf.rewind();
+
+            this.tex = new NativeImageBackedTexture(NativeImage.read(imgBuf));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            MemoryUtil.memFree(imgBuf);
         }
 
         MinecraftClient.getInstance().getTextureManager().registerTexture(id, tex);
