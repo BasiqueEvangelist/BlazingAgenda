@@ -106,13 +106,24 @@ public class BarberStationScreenHandler extends ScreenHandler {
             haircuts.add(new HaircutEntry(haircut.id(), haircut.name(), data));
         }
 
-        sendMessage(new InfoResponse(haircuts, HaircutLimits.maxTotalSize((ServerPlayerEntity) player())));
+        sendMessage(new InfoResponse(
+            haircuts,
+            HaircutLimits.maxTotalSize((ServerPlayerEntity) player()),
+            HaircutLimits.maxTotalSlots((ServerPlayerEntity) player()),
+            HaircutLimits.canCreate((ServerPlayerEntity) player())
+        ));
     }
 
     private void onUploadHaircut(UploadHaircut packet) {
+        if (!HaircutLimits.canCreate((ServerPlayerEntity) player())) {
+            sendMessage(new UploadRejected(packet.name(), Text.translatable("message.thebarbershop.permissionDenied")));
+            return;
+        }
+
         HaircutsState state = HaircutsState.get(player().getServer());
 
-        if (state.totalHaircutsSize(player().getUuid()) + packet.pngData().length > HaircutLimits.maxTotalSize((ServerPlayerEntity) player())) {
+        if (state.totalHaircutsSize(player().getUuid()) + packet.pngData().length > HaircutLimits.maxTotalSize((ServerPlayerEntity) player())
+         || state.totalHaircutsCount(player().getUuid()) + 1 > HaircutLimits.maxTotalSlots((ServerPlayerEntity) player())) {
             // Not enough space.
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.thebarbershop.notEnoughSpace")));
             return;
@@ -141,7 +152,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public record ExchangeHaircut(UUID id, int max) {}
 
     public record RequestInfo() { }
-    public record InfoResponse(List<HaircutEntry> haircuts, int maxTotalSize) { }
+    public record InfoResponse(List<HaircutEntry> haircuts, int maxTotalSize, int maxTotalSlots, boolean canCreate) { }
 
     public record HaircutEntry(UUID id, String name, byte[] data) { }
 }

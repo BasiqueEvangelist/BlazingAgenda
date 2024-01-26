@@ -30,6 +30,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
     private final FlowLayout haircutsContainer = Containers.ltrTextFlow(Sizing.fill(100), Sizing.content());
     private final LabelComponent usedLabel = Components.label(Text.literal(""));
 
+    private boolean canCreate = true;
+
     public BarberStationScreen(BarberStationScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
 
@@ -83,6 +85,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
     @Override
     public void filesDragged(List<Path> paths) {
+        if (!canCreate) return;
+
         var path = paths.get(0);
 
         var flow = Containers.verticalFlow(Sizing.content(), Sizing.content());
@@ -130,6 +134,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
     }
 
     public void infoReceived(BarberStationScreenHandler.InfoResponse haircuts) {
+        this.canCreate = haircuts.canCreate();
+
         haircutsContainer.<FlowLayout>configure(container -> {
             container.clearChildren();
 
@@ -180,37 +186,39 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 container.child(haircutFlow);
             }
 
-            var addFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
+            if (haircuts.canCreate()) {
+                var addFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
 
-            addFlow
-                .gap(2)
-                .padding(Insets.of(5))
-                .surface(SURFACE)
-                .horizontalAlignment(HorizontalAlignment.CENTER)
-                .verticalAlignment(VerticalAlignment.CENTER)
-                .cursorStyle(CursorStyle.HAND);
+                addFlow
+                    .gap(2)
+                    .padding(Insets.of(5))
+                    .surface(SURFACE)
+                    .horizontalAlignment(HorizontalAlignment.CENTER)
+                    .verticalAlignment(VerticalAlignment.CENTER)
+                    .cursorStyle(CursorStyle.HAND);
 
-            addFlow.child(Components.label(Text.translatable("text.thebarbershop.drag_or_click_to_add").formatted(Formatting.BLACK))
-                .horizontalTextAlignment(HorizontalAlignment.CENTER)
-                .horizontalSizing(Sizing.fill(100))
-                .cursorStyle(CursorStyle.HAND));
+                addFlow.child(Components.label(Text.translatable("text.thebarbershop.drag_or_click_to_add").formatted(Formatting.BLACK))
+                    .horizontalTextAlignment(HorizontalAlignment.CENTER)
+                    .horizontalSizing(Sizing.fill(100))
+                    .cursorStyle(CursorStyle.HAND));
 
-            addFlow.mouseDown().subscribe((mouseX, mouseY, button) -> {
-                if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+                addFlow.mouseDown().subscribe((mouseX, mouseY, button) -> {
+                    if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
 
-                UISounds.playButtonSound();
+                    UISounds.playButtonSound();
 
-                DialogUtil.openFileDialogAsync("Open haircut image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
-                    .thenAcceptAsync(imgPath -> {
-                        if (imgPath != null) {
-                            filesDragged(List.of(Path.of(imgPath)));
-                        }
-                    }, MinecraftClient.getInstance());
+                    DialogUtil.openFileDialogAsync("Open haircut image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
+                        .thenAcceptAsync(imgPath -> {
+                            if (imgPath != null) {
+                                filesDragged(List.of(Path.of(imgPath)));
+                            }
+                        }, MinecraftClient.getInstance());
 
-                return true;
-            });
+                    return true;
+                });
 
-            container.child(addFlow);
+                container.child(addFlow);
+            }
         });
 
         int totalUsed = 0;
@@ -219,7 +227,13 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             totalUsed += haircut.data().length;
         }
 
-        usedLabel.text(Text.translatable("text.thebarbershop.total_used", toKiB(totalUsed), toKiB(haircuts.maxTotalSize()))
+        usedLabel.text(Text.translatable(
+                "text.thebarbershop.total_used",
+                toKiB(totalUsed),
+                toKiB(haircuts.maxTotalSize()),
+                haircuts.haircuts().size(),
+                haircuts.maxTotalSlots()
+            )
             .formatted(Formatting.BLACK));
     }
 

@@ -61,6 +61,18 @@ public class HaircutsState extends PersistentState {
         return totalSize;
     }
 
+    public int totalHaircutsCount(UUID playerId) {
+        int total = 0;
+
+        for (var value : haircuts.values()) {
+            if (!value.ownerId.equals(playerId)) continue;
+
+            total += 1;
+        }
+
+        return total;
+    }
+
     public HaircutEntry add(UUID playerId, String name, byte[] data) {
         UUID haircutId = UUID.randomUUID();
 

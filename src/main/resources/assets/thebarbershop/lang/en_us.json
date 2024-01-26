@@ -2,7 +2,7 @@
     "block.thebarbershop.barber_station": "Barber Station",
     "text.thebarbershop.barber_station_screen": "Barber Station",
     "text.thebarbershop.drag_or_click_to_add": "Drag and drop or click to add haircut",
-    "text.thebarbershop.total_used": "- %s/%s KiB used",
+    "text.thebarbershop.total_used": "- %s/%s KiB, %s/%s slots used",
 
     "item.thebarbershop.empty_template": "Empty Template",
     "item.thebarbershop.template": "Template",
@@ -40,5 +40,8 @@
     "subtitles.thebarbershop.scissors.use": "Scissors click",
 
     "message.thebarbershop.notEnoughSpace": "Not enough pattern space",
-    "message.thebarbershop.loading": "Loading..."
+    "message.thebarbershop.permissionDenied": "Permission denied",
+    "message.thebarbershop.loading": "Loading...",
+
+    "error.thebarbershop.noHaircutHeld": "No haircut template in hand"
 }
