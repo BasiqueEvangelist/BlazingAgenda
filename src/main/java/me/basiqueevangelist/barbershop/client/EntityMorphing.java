@@ -20,7 +20,7 @@ public final class EntityMorphing {
 
         if (current == null) return original;
 
-        UUID haircutId = current.getComponent(TheBarbershopCCA.HAIRCUT).haircutId();
+        UUID haircutId = HaircutContext.haircutId();
 
         if (haircutId.equals(Util.NIL_UUID)) return original;
 
@@ -40,7 +40,7 @@ public final class EntityMorphing {
 
         if (current == null) return original;
 
-        UUID haircutId = current.getComponent(TheBarbershopCCA.HAIRCUT).haircutId();
+        UUID haircutId = HaircutContext.haircutId();
 
         if (haircutId.equals(Util.NIL_UUID)) return original;
 
