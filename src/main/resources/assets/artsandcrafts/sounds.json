@@ -1,0 +1,8 @@
+{
+    "item.scissors.use": {
+        "sounds": [
+            "mob/sheep/shear"
+        ],
+        "subtitle": "subtitles.artsandcrafts.scissors.use"
+    }
+}

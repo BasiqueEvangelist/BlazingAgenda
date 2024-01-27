@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "down": "minecraft:block/birch_planks",
+        "east": "artsandcrafts:block/barber_station_side",
+        "north": "artsandcrafts:block/barber_station_side",
+        "particle": "artsandcrafts:block/barber_station_side",
+        "south": "artsandcrafts:block/barber_station_side",
+        "up": "artsandcrafts:block/barber_station_top",
+        "west": "artsandcrafts:block/barber_station_side"
+    }
+}

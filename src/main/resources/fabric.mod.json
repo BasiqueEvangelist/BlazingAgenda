@@ -1,36 +1,36 @@
 {
 	"schemaVersion": 1,
-	"id": "thebarbershop",
+	"id": "artsandcrafts",
 	"version": "${version}",
-	"name": "The Barbershop",
+	"name": "Arts and Crafts",
 	"description": "Player-made synced mob skins",
 	"authors": [
 		"BasiqueEvangelist"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/thebarbershop",
-		"sources": "https://github.com/BasiqueEvangelist/TheBarbershop"
+		"homepage": "https://modrinth.com/mod/artsandcrafts",
+		"sources": "https://github.com/BasiqueEvangelist/ArtsAndCrafts"
 	},
 	"license": "LGPL-3.0-only",
-	"icon": "assets/thebarbershop/icon.png",
+	"icon": "assets/artsandcrafts/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"me.basiqueevangelist.barbershop.TheBarbershop"
+			"me.basiqueevangelist.artsandcrafts.ArtsAndCrafts"
 		],
 		"client": [
-			"me.basiqueevangelist.barbershop.client.TheBarbershopClient"
+			"me.basiqueevangelist.artsandcrafts.client.ArtsAndCraftsClient"
 		],
 		"cardinal-components": [
-			"me.basiqueevangelist.barbershop.cca.TheBarbershopCCA"
+			"me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA"
 		]
 	},
 	"mixins": [
-		"thebarbershop.mixins.json"
+		"artsandcrafts.mixins.json"
 	],
 	"custom": {
 		"cardinal-components": [
-			"thebarbershop:haircut"
+			"artsandcrafts:haircut"
 		]
 	},
 	"depends": {

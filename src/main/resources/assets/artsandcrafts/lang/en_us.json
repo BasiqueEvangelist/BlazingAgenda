@@ -1,0 +1,47 @@
+{
+    "block.artsandcrafts.barber_station": "Barber Station",
+    "text.artsandcrafts.barber_station_screen": "Barber Station",
+    "text.artsandcrafts.drag_or_click_to_add": "Drag and drop or click to add haircut",
+    "text.artsandcrafts.total_used": "- %s/%s KiB, %s/%s slots used",
+
+    "item.artsandcrafts.empty_template": "Empty Template",
+    "item.artsandcrafts.template": "Template",
+    "item.artsandcrafts.template.notLoaded": {
+        "text": "???",
+        "color": "gray"
+    },
+    "item.artsandcrafts.template.withName":  [
+        "Template",
+        {
+            "text": " [",
+            "color": "dark_gray"
+        },
+        {
+            "index": 0,
+            "color": "gray"
+        },
+        {
+            "text": "]",
+            "color": "dark_gray"
+        }
+    ],
+    "item.artsandcrafts.template.haircutId": [
+        {
+            "text": "ID: ",
+            "color": "dark_gray"
+        },
+        { "index": 0 }
+    ],
+    "item.artsandcrafts.scissors": "Scissors",
+
+    "itemGroup.artsandcrafts.item_group": "Arts and Crafts",
+    "itemGroup.artsandcrafts.item_group.button.github": "GitHub",
+
+    "subtitles.artsandcrafts.scissors.use": "Scissors click",
+
+    "message.artsandcrafts.notEnoughSpace": "Not enough pattern space",
+    "message.artsandcrafts.permissionDenied": "Permission denied",
+    "message.artsandcrafts.loading": "Loading...",
+
+    "error.artsandcrafts.noHaircutHeld": "No haircut template in hand"
+}
