@@ -88,11 +88,12 @@ public class BarberStationScreenHandler extends ScreenHandler {
     }
 
     private void onRequestInfo(RequestInfo packet) {
-        HaircutsState state = HaircutsState.get(player().getServer());
+        ServerPlayerEntity player = (ServerPlayerEntity) player();
+        HaircutsState state = HaircutsState.get(player.server);
         List<HaircutEntry> haircuts = new ArrayList<>();
 
         for (var haircut : state.haircuts().values()) {
-            if (!haircut.ownerId().equals(player().getUuid())) continue;
+            if (!haircut.ownerId().equals(player.getUuid())) continue;
 
             byte[] data;
 
@@ -108,28 +109,30 @@ public class BarberStationScreenHandler extends ScreenHandler {
 
         sendMessage(new InfoResponse(
             haircuts,
-            HaircutLimits.maxTotalSize((ServerPlayerEntity) player()),
-            HaircutLimits.maxTotalSlots((ServerPlayerEntity) player()),
-            HaircutLimits.canCreate((ServerPlayerEntity) player())
+            HaircutLimits.maxTotalSize(player),
+            HaircutLimits.maxTotalSlots(player),
+            HaircutLimits.canCreate(player)
         ));
     }
 
     private void onUploadHaircut(UploadHaircut packet) {
-        if (!HaircutLimits.canCreate((ServerPlayerEntity) player())) {
+        ServerPlayerEntity player = (ServerPlayerEntity) player();
+
+        if (!HaircutLimits.canCreate(player)) {
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.thebarbershop.permissionDenied")));
             return;
         }
 
-        HaircutsState state = HaircutsState.get(player().getServer());
+        HaircutsState state = HaircutsState.get(player.server);
 
-        if (state.totalHaircutsSize(player().getUuid()) + packet.pngData().length > HaircutLimits.maxTotalSize((ServerPlayerEntity) player())
-         || state.totalHaircutsCount(player().getUuid()) + 1 > HaircutLimits.maxTotalSlots((ServerPlayerEntity) player())) {
+        if (state.totalHaircutsSize(player.getUuid()) + packet.pngData().length > HaircutLimits.maxTotalSize(player)
+         || state.totalHaircutsCount(player.getUuid()) + 1 > HaircutLimits.maxTotalSlots(player)) {
             // Not enough space.
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.thebarbershop.notEnoughSpace")));
             return;
         }
 
-        var haircut = state.add(player().getUuid(), packet.name(), packet.pngData());
+        var haircut = state.add(player.getUuid(), packet.name(), packet.pngData());
 
         sendMessage(new UploadSucceeded(haircut.name(), haircut.id()));
     }
