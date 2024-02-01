@@ -105,7 +105,9 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
         DownloadedTexture tx = new DownloadedTexture(data);
 
-        flow.child(tx.toComponent());
+        flow.child(tx.toComponent()
+            .preserveAspectRatio(true)
+            .horizontalSizing(Sizing.fill(90)));
 
         TextBoxComponent nameBox;
         flow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
