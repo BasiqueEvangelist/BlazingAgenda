@@ -9,8 +9,11 @@ import me.basiqueevangelist.artsandcrafts.ArtsAndCrafts;
 
 public class ArtsAndCraftsItems implements ItemRegistryContainer {
     public static final OwoItemGroup GROUP = OwoItemGroup.builder(ArtsAndCrafts.id("item_group"), () -> Icon.of(ArtsAndCraftsItems.SCISSORS))
-        .initializer(group ->
-            group.addButton(ItemGroupButton.github(group, "https://github.com/BasiqueEvangelist/ArtsAndCrafts")))
+        .initializer(group -> {
+            group.addButton(ItemGroupButton.github(group, "https://github.com/BasiqueEvangelist/ArtsAndCrafts"));
+            group.addButton(ItemGroupButton.modrinth(group, "https://modrinth.com/mod/artsandcrafts"));
+            group.addButton(ItemGroupButton.discord(group, "https://wispforest.io/discord"));
+        })
         .build();
 
     public static final TemplateItem TEMPLATE = new TemplateItem(new OwoItemSettings().group(GROUP));

@@ -36,6 +36,8 @@
 
     "itemGroup.artsandcrafts.item_group": "Arts and Crafts",
     "itemGroup.artsandcrafts.item_group.button.github": "GitHub",
+    "itemGroup.artsandcrafts.item_group.button.modrinth": "Modrinth",
+    "itemGroup.artsandcrafts.item_group.button.discord": "Discord",
 
     "subtitles.artsandcrafts.scissors.use": "Scissors click",
 
