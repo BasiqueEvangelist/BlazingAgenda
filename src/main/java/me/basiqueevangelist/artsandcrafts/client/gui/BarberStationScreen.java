@@ -65,7 +65,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 .margins(Insets.bottom(10)));
 
         haircutsContainer
-            .gap(5);
+            .gap(5)
+            .margins(Insets.of(5));
 
         haircutsContainer
             .child(Containers.horizontalFlow(Sizing.fill(100), Sizing.content())
@@ -107,7 +108,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
         flow.child(tx.toComponent()
             .preserveAspectRatio(true)
-            .horizontalSizing(Sizing.fill(90)));
+            .verticalSizing(Sizing.fill(75)));
 
         TextBoxComponent nameBox;
         flow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())

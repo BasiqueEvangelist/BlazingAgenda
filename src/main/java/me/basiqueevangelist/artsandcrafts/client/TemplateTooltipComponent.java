@@ -11,7 +11,10 @@ public class TemplateTooltipComponent extends BaseOwoTooltipComponent<FlowLayout
         super(() -> {
             var flow = Containers.verticalFlow(Sizing.content(), Sizing.content());
 
-            flow.child(entry.texture().toComponent()
+            flow.child(Containers.verticalFlow(Sizing.fixed(100), Sizing.content())
+                .child(entry.texture().toComponent()
+                    .preserveAspectRatio(true)
+                    .horizontalSizing(Sizing.fill(100)))
                 .margins(Insets.of(5)));
 
             return flow;
