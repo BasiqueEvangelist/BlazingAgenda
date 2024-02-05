@@ -1,7 +1,7 @@
 package me.basiqueevangelist.artsandcrafts.client;
 
-import me.basiqueevangelist.artsandcrafts.network.HaircutS2CPacket;
 import me.basiqueevangelist.artsandcrafts.network.ArtsAndCraftsNetworking;
+import me.basiqueevangelist.artsandcrafts.network.HaircutS2CPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

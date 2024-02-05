@@ -2,9 +2,9 @@ package me.basiqueevangelist.artsandcrafts.client;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import me.basiqueevangelist.artsandcrafts.network.ArtsAndCraftsNetworking;
 import me.basiqueevangelist.artsandcrafts.network.HaircutS2CPacket;
 import me.basiqueevangelist.artsandcrafts.network.RequestHaircutC2SPacket;
-import me.basiqueevangelist.artsandcrafts.network.ArtsAndCraftsNetworking;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

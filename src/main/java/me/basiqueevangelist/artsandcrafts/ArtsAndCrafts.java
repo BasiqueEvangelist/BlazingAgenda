@@ -5,7 +5,6 @@ import me.basiqueevangelist.artsandcrafts.block.ArtsAndCraftsBlocks;
 import me.basiqueevangelist.artsandcrafts.command.DeleteCommand;
 import me.basiqueevangelist.artsandcrafts.item.ArtsAndCraftsItems;
 import me.basiqueevangelist.artsandcrafts.item.EarlyUseOnEntity;
-import me.basiqueevangelist.artsandcrafts.item.ScissorsItem;
 import me.basiqueevangelist.artsandcrafts.network.ArtsAndCraftsNetworking;
 import me.basiqueevangelist.artsandcrafts.screen.ArtsAndCraftsScreenHandlers;
 import net.fabricmc.api.ModInitializer;

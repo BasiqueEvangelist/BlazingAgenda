@@ -1,9 +1,8 @@
 package me.basiqueevangelist.artsandcrafts.item;
 
 import me.basiqueevangelist.artsandcrafts.ArtsAndCraftsSounds;
-import me.basiqueevangelist.artsandcrafts.cca.HaircutComponent;
 import me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import me.basiqueevangelist.artsandcrafts.cca.HaircutComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.player.PlayerEntity;

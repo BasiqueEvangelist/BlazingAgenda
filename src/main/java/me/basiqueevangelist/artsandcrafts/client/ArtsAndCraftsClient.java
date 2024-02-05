@@ -2,8 +2,8 @@ package me.basiqueevangelist.artsandcrafts.client;
 
 import me.basiqueevangelist.artsandcrafts.ArtsAndCrafts;
 import me.basiqueevangelist.artsandcrafts.client.gui.BarberStationScreen;
-import me.basiqueevangelist.artsandcrafts.item.TemplateItem;
 import me.basiqueevangelist.artsandcrafts.item.ArtsAndCraftsItems;
+import me.basiqueevangelist.artsandcrafts.item.TemplateItem;
 import me.basiqueevangelist.artsandcrafts.screen.ArtsAndCraftsScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
