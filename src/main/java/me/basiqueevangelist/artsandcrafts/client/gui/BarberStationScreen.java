@@ -11,6 +11,7 @@ import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.UISounds;
 import io.wispforest.owo.util.pond.OwoScreenHandlerExtension;
 import me.basiqueevangelist.artsandcrafts.client.DownloadedTexture;
+import me.basiqueevangelist.artsandcrafts.client.NotificationToast;
 import me.basiqueevangelist.artsandcrafts.screen.BarberStationScreenHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
@@ -36,7 +37,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
         super(handler, inventory, title);
 
         handler.uploadSucceeded = this::uploadSucceeded;
-//        handler.uploadRejected = this::uploadRejected;
+        handler.uploadRejected = this::uploadRejected;
 
         handler.infoResponse = this::infoReceived;
 
@@ -134,6 +135,11 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
     public void uploadSucceeded(BarberStationScreenHandler.UploadSucceeded packet) {
         getScreenHandler().sendMessage(new BarberStationScreenHandler.RequestInfo());
+    }
+
+    public void uploadRejected(BarberStationScreenHandler.UploadRejected packet) {
+        var toast = new NotificationToast(packet.errorMessage(), null);
+        toast.register();
     }
 
     public void infoReceived(BarberStationScreenHandler.InfoResponse haircuts) {
