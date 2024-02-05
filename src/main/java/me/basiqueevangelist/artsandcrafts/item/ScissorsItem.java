@@ -19,23 +19,9 @@ import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class ScissorsItem extends Item {
+public class ScissorsItem extends Item implements EarlyUseOnEntity {
     public ScissorsItem(Item.Settings settings) {
         super(settings);
-    }
-
-    static {
-        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            if (player.isSpectator()) return ActionResult.PASS;
-
-            var stack = player.getStackInHand(hand);
-
-            if (stack.getItem() instanceof ScissorsItem scissors) {
-                return scissors.useOn(stack, player, entity, hand);
-            }
-
-            return ActionResult.PASS;
-        });
     }
 
     @Override
