@@ -45,5 +45,6 @@
     "message.artsandcrafts.permissionDenied": "Permission denied",
     "message.artsandcrafts.loading": "Loading...",
 
-    "error.artsandcrafts.noHaircutHeld": "No haircut template in hand"
+    "error.artsandcrafts.noHaircutHeld": "No haircut template in hand",
+    "error.artsandcrafts.noHaircutTarget": "Target has no haircut assigned"
 }
