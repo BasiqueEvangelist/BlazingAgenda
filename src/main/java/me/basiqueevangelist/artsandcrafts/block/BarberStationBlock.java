@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class BarberStationBlock extends Block {
     public BarberStationBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.CARTOGRAPHY_TABLE));
+        super(FabricBlockSettings.copyOf(Blocks.FLETCHING_TABLE));
     }
 
     @Override
