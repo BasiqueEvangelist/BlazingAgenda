@@ -15,7 +15,7 @@
 		"sources": "https://github.com/BasiqueEvangelist/ArtsAndCrafts"
 	},
 	"license": "LGPL-3.0-only",
-	"icon": "assets/artsandcrafts/icon.png",
+	"icon": "assets/artsandcrafts/textures/item/scissors.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -28,6 +28,7 @@
 			"me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA"
 		]
 	},
+	"accessWidener": "artsandcrafts.accesswidener",
 	"mixins": [
 		"artsandcrafts.mixins.json"
 	],
