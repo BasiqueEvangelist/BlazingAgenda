@@ -3,6 +3,10 @@ package me.basiqueevangelist.artsandcrafts.item;
 import me.basiqueevangelist.artsandcrafts.ArtsAndCraftsSounds;
 import me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA;
 import me.basiqueevangelist.artsandcrafts.cca.HaircutComponent;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,12 +14,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ScissorsItem extends Item implements EarlyUseOnEntity {
@@ -80,5 +87,16 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
         stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
 
         return TypedActionResult.success(stack);
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if (Screen.hasShiftDown()) {
+            tooltip.add(Text.translatable("item.artsandcrafts.scissors.tooltip.1"));
+            tooltip.add(Text.translatable("item.artsandcrafts.scissors.tooltip.2"));
+        } else {
+            tooltip.add(Text.translatable("text.artsandcrafts.tooltip_hint"));
+        }
     }
 }

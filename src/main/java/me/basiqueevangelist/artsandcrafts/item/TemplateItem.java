@@ -5,7 +5,9 @@ import me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA;
 import me.basiqueevangelist.artsandcrafts.cca.HaircutComponent;
 import me.basiqueevangelist.artsandcrafts.client.ClientHaircutStore;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.Entity;
@@ -49,7 +51,13 @@ public class TemplateItem extends Item implements EarlyUseOnEntity {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (!stack.has(HAIRCUT)) return;
+        if (!stack.has(HAIRCUT)) {
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+                appendExtendableTooltip(tooltip);
+            }
+
+            return;
+        }
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             var entry = ClientHaircutStore.get(stack.get(HAIRCUT));
@@ -69,6 +77,15 @@ public class TemplateItem extends Item implements EarlyUseOnEntity {
 
         if (context.isAdvanced()) {
             tooltip.add(Text.translatable("item.artsandcrafts.template.haircutId", stack.get(HAIRCUT)));
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    private void appendExtendableTooltip(List<Text> tooltip) {
+        if (Screen.hasShiftDown()) {
+            tooltip.add(Text.translatable("item.artsandcrafts.empty_template.tooltip"));
+        } else {
+            tooltip.add(Text.translatable("text.artsandcrafts.tooltip_hint"));
         }
     }
 

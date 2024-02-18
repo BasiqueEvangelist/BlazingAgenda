@@ -5,6 +5,14 @@
     "text.artsandcrafts.total_used": "- %s/%s KiB, %s/%s slots used",
 
     "item.artsandcrafts.empty_template": "Empty Template",
+    "item.artsandcrafts.empty_template.tooltip": [
+        "Fashion in the ",
+        {
+            "text": "Barber Station",
+            "color": "blue"
+        },
+        " or use on a mob to copy"
+    ],
     "item.artsandcrafts.template": "Template",
     "item.artsandcrafts.template.notLoaded": {
         "text": "???",
@@ -33,6 +41,8 @@
         { "index": 0 }
     ],
     "item.artsandcrafts.scissors": "Scissors",
+    "item.artsandcrafts.scissors.tooltip.1": "Use on a mob with a template in",
+    "item.artsandcrafts.scissors.tooltip.2": "your offhand to apply haircut",
 
     "itemGroup.artsandcrafts.item_group": "Arts and Crafts",
     "itemGroup.artsandcrafts.item_group.button.github": "GitHub",
@@ -44,6 +54,18 @@
     "message.artsandcrafts.notEnoughSpace": "Not enough pattern space",
     "message.artsandcrafts.permissionDenied": "Permission denied",
     "message.artsandcrafts.loading": "Loading...",
+
+    "text.artsandcrafts.tooltip_hint": [
+        {
+            "text": "Hold ",
+            "color": "gray"
+        },
+        {
+            "text": "SHIFT",
+            "color": "gold"
+        },
+        " for more info"
+    ],
 
     "error.artsandcrafts.noHaircutHeld": "No haircut template in hand",
     "error.artsandcrafts.noHaircutTarget": "Target has no haircut assigned"
