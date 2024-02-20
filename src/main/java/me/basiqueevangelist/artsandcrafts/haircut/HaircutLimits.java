@@ -9,15 +9,23 @@ public final class HaircutLimits {
 
     }
 
-    public static boolean canCreate(ServerPlayerEntity player) {
-        return Permissions.check(player, "artsandcrafts.createHaircut", true);
+    public static boolean canUpload(ServerPlayerEntity player) {
+        return Permissions.check(player, "artsandcrafts.uploadHaircut", true);
     }
 
-    public static int maxTotalSlots(ServerPlayerEntity player) {
-        return Options.get(player, "artsandcrafts.maxTotalSlots", 50, Integer::parseInt);
+    public static boolean canApply(ServerPlayerEntity player) {
+        return Permissions.check(player, "artsandcrafts.applyHaircut", true);
     }
 
-    public static int maxTotalSize(ServerPlayerEntity player) {
-        return Options.get(player, "artsandcrafts.maxTotalSize", 1024 * 1024, Integer::parseInt);
+    public static boolean canCopy(ServerPlayerEntity player) {
+        return Permissions.check(player, "artsandcrafts.copyHaircut", true);
+    }
+
+    public static int maxHaircutSlots(ServerPlayerEntity player) {
+        return Options.get(player, "artsandcrafts.maxHaircutSlots", 50, Integer::parseInt);
+    }
+
+    public static int maxTotalStorage(ServerPlayerEntity player) {
+        return Options.get(player, "artsandcrafts.maxTotalStorage", 1024 * 1024, Integer::parseInt);
     }
 }

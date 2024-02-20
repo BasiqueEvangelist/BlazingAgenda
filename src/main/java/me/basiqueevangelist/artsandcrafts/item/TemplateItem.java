@@ -4,6 +4,7 @@ import io.wispforest.owo.nbt.NbtKey;
 import me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA;
 import me.basiqueevangelist.artsandcrafts.cca.HaircutComponent;
 import me.basiqueevangelist.artsandcrafts.client.ClientHaircutStore;
+import me.basiqueevangelist.artsandcrafts.haircut.HaircutLimits;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,12 +17,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,23 +102,26 @@ public class TemplateItem extends Item implements EarlyUseOnEntity {
 
     @Override
     public ActionResult useOn(ItemStack stack, PlayerEntity user, Entity entity, Hand hand) {
+        if (user instanceof ServerPlayerEntity spe && !HaircutLimits.canCopy(spe)) return ActionResult.PASS;
         if (stack.has(HAIRCUT)) return ActionResult.PASS;
 
         HaircutComponent component = entity.getComponent(ArtsAndCraftsCCA.HAIRCUT);
 
         if (component.haircutId().equals(Util.NIL_UUID)) return ActionResult.PASS;
 
-        if (stack.getCount() > 1) {
-            if (!user.getAbilities().creativeMode) stack.decrement(1);
+        if (!user.getWorld().isClient) {
+            if (stack.getCount() > 1) {
+                if (!user.getAbilities().creativeMode) stack.decrement(1);
 
-            var filledStack = stack.copyWithCount(1);
-            filledStack.put(HAIRCUT, component.haircutId());
-            user.getInventory().offerOrDrop(filledStack);
-        } else {
-            stack.put(HAIRCUT, component.haircutId());
+                var filledStack = stack.copyWithCount(1);
+                filledStack.put(HAIRCUT, component.haircutId());
+                user.getInventory().offerOrDrop(filledStack);
+            } else {
+                stack.put(HAIRCUT, component.haircutId());
+            }
+
+            user.getWorld().playSoundFromEntity(null, user, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, user.getSoundCategory(), 1.0F, 1.0F);
         }
-
-        user.getWorld().playSoundFromEntity(null, user, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, user.getSoundCategory(), 1.0F, 1.0F);
 
         return ActionResult.SUCCESS;
     }

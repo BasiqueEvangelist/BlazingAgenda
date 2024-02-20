@@ -3,6 +3,7 @@ package me.basiqueevangelist.artsandcrafts.item;
 import me.basiqueevangelist.artsandcrafts.ArtsAndCraftsSounds;
 import me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA;
 import me.basiqueevangelist.artsandcrafts.cca.HaircutComponent;
+import me.basiqueevangelist.artsandcrafts.haircut.HaircutLimits;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -36,6 +38,8 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
     }
 
     public ActionResult useOn(ItemStack stack, PlayerEntity user, Entity entity, Hand hand) {
+        if (user instanceof ServerPlayerEntity spe && !HaircutLimits.canApply(spe)) return ActionResult.PASS;
+
         if (hand == Hand.OFF_HAND) return ActionResult.PASS;
 
         if (entity instanceof EnderDragonPart part) entity = part.owner;
@@ -65,6 +69,7 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
 
+        if (user instanceof ServerPlayerEntity spe && !HaircutLimits.canApply(spe)) return TypedActionResult.pass(stack);
         if (hand == Hand.OFF_HAND) return TypedActionResult.pass(stack);
         if (!user.isSneaking()) return TypedActionResult.pass(stack);
 

@@ -109,24 +109,24 @@ public class BarberStationScreenHandler extends ScreenHandler {
 
         sendMessage(new InfoResponse(
             haircuts,
-            HaircutLimits.maxTotalSize(player),
-            HaircutLimits.maxTotalSlots(player),
-            HaircutLimits.canCreate(player)
+            HaircutLimits.maxTotalStorage(player),
+            HaircutLimits.maxHaircutSlots(player),
+            HaircutLimits.canUpload(player)
         ));
     }
 
     private void onUploadHaircut(UploadHaircut packet) {
         ServerPlayerEntity player = (ServerPlayerEntity) player();
 
-        if (!HaircutLimits.canCreate(player)) {
+        if (!HaircutLimits.canUpload(player)) {
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.artsandcrafts.permissionDenied")));
             return;
         }
 
         HaircutsState state = HaircutsState.get(player.server);
 
-        if (state.totalHaircutsSize(player.getUuid()) + packet.pngData().length > HaircutLimits.maxTotalSize(player)
-         || state.totalHaircutsCount(player.getUuid()) + 1 > HaircutLimits.maxTotalSlots(player)) {
+        if (state.totalHaircutsSize(player.getUuid()) + packet.pngData().length > HaircutLimits.maxTotalStorage(player)
+         || state.totalHaircutsCount(player.getUuid()) + 1 > HaircutLimits.maxHaircutSlots(player)) {
             // Not enough space.
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.artsandcrafts.notEnoughSpace")));
             return;
