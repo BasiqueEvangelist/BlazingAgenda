@@ -29,7 +29,6 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
     private static final Surface SURFACE = Surface.flat(0xFFCCCCCC).and(Surface.outline(0xFF5800FF));
 
     private final FlowLayout haircutsContainer = Containers.ltrTextFlow(Sizing.fill(100), Sizing.content());
-    private final LabelComponent usedLabel = Components.label(Text.literal(""));
 
     private boolean canCreate = true;
 
@@ -62,7 +61,6 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             .child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
                 .child(Components.label(Text.translatable("text.artsandcrafts.barber_station_screen").formatted(Formatting.BLACK))
                     .margins(Insets.right(5)))
-                .child(usedLabel)
                 .margins(Insets.bottom(10)));
 
         haircutsContainer
@@ -144,7 +142,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
     }
 
     public void infoReceived(BarberStationScreenHandler.InfoResponse haircuts) {
-        this.canCreate = haircuts.canCreate();
+        this.canCreate = haircuts.canUpload();
 
         haircutsContainer.<FlowLayout>configure(container -> {
             container.clearChildren();
@@ -202,7 +200,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 container.child(haircutFlow);
             }
 
-            if (haircuts.canCreate()) {
+            if (haircuts.canUpload()) {
                 var addFlow = Containers.verticalFlow(Sizing.fixed(125), Sizing.fixed(100));
 
                 addFlow
@@ -236,21 +234,6 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 container.child(addFlow);
             }
         });
-
-        int totalUsed = 0;
-
-        for (var haircut : haircuts.haircuts()) {
-            totalUsed += haircut.data().length;
-        }
-
-        usedLabel.text(Text.translatable(
-                "text.artsandcrafts.total_used",
-                toKiB(totalUsed),
-                toKiB(haircuts.maxTotalSize()),
-                haircuts.haircuts().size(),
-                haircuts.maxTotalSlots()
-            )
-            .formatted(Formatting.BLACK));
     }
 
     private static double toKiB(int bytes) {

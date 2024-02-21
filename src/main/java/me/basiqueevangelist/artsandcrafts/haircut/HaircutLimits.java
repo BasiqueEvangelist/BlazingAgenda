@@ -24,12 +24,4 @@ public final class HaircutLimits {
     public static boolean canDelete(ServerPlayerEntity player) {
         return Permissions.check(player, "artsandcrafts.deleteHaircut", 3);
     }
-
-    public static int maxHaircutSlots(ServerPlayerEntity player) {
-        return Options.get(player, "artsandcrafts.maxHaircutSlots", 50, Integer::parseInt);
-    }
-
-    public static int maxTotalStorage(ServerPlayerEntity player) {
-        return Options.get(player, "artsandcrafts.maxTotalStorage", 1024 * 1024, Integer::parseInt);
-    }
 }

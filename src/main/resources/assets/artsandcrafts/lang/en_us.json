@@ -2,7 +2,6 @@
     "block.artsandcrafts.barber_station": "Barber Station",
     "text.artsandcrafts.barber_station_screen": "Barber Station",
     "text.artsandcrafts.drag_or_click_to_add": "Drag and drop or click to add haircut",
-    "text.artsandcrafts.total_used": "- %s/%s KiB, %s/%s slots used",
 
     "item.artsandcrafts.empty_template": "Empty Template",
     "item.artsandcrafts.empty_template.tooltip": [
@@ -51,7 +50,6 @@
 
     "subtitles.artsandcrafts.scissors.use": "Scissors click",
 
-    "message.artsandcrafts.notEnoughSpace": "Not enough pattern space",
     "message.artsandcrafts.permissionDenied": "Permission denied",
     "message.artsandcrafts.loading": "Loading...",
 

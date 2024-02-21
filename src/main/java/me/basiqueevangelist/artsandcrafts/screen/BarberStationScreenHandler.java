@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -114,8 +113,6 @@ public class BarberStationScreenHandler extends ScreenHandler {
 
         sendMessage(new InfoResponse(
             haircuts,
-            HaircutLimits.maxTotalStorage(player),
-            HaircutLimits.maxHaircutSlots(player),
             HaircutLimits.canUpload(player)
         ));
     }
@@ -129,13 +126,6 @@ public class BarberStationScreenHandler extends ScreenHandler {
         }
 
         HaircutsState state = HaircutsState.get(player.server);
-
-        if (state.totalHaircutsSize(player.getUuid()) + packet.pngData().length > HaircutLimits.maxTotalStorage(player)
-         || state.totalHaircutsCount(player.getUuid()) + 1 > HaircutLimits.maxHaircutSlots(player)) {
-            // Not enough space.
-            sendMessage(new UploadRejected(packet.name(), Text.translatable("message.artsandcrafts.notEnoughSpace")));
-            return;
-        }
 
         var haircut = state.add(player.getUuid(), packet.name(), packet.pngData());
 
@@ -160,7 +150,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public record ExchangeHaircut(UUID id, int max) {}
 
     public record RequestInfo() { }
-    public record InfoResponse(List<HaircutEntry> haircuts, int maxTotalSize, int maxTotalSlots, boolean canCreate) { }
+    public record InfoResponse(List<HaircutEntry> haircuts, boolean canUpload) { }
 
     public record HaircutEntry(UUID id, String name, String ownerName, boolean canDelete, byte[] data) { }
 }
