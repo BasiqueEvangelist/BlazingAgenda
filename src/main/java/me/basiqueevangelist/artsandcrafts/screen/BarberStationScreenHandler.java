@@ -1,5 +1,6 @@
 package me.basiqueevangelist.artsandcrafts.screen;
 
+import com.mojang.authlib.GameProfile;
 import io.wispforest.owo.client.screens.SlotGenerator;
 import me.basiqueevangelist.artsandcrafts.haircut.HaircutLimits;
 import me.basiqueevangelist.artsandcrafts.haircut.HaircutsState;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -79,10 +81,11 @@ public class BarberStationScreenHandler extends ScreenHandler {
     }
 
     private void onDeleteHaircut(DeleteHaircut packet) {
-        HaircutsState state = HaircutsState.get(player().getServer());
+        ServerPlayerEntity player = (ServerPlayerEntity) player();
+        HaircutsState state = HaircutsState.get(player.server);
 
         var cut = state.haircuts().get(packet.id());
-        if (!cut.ownerId().equals(player().getUuid())) return;
+        if (!cut.ownerId().equals(player.getUuid()) && !HaircutLimits.canDelete(player)) return;
 
         state.deleteHaircut(cut);
     }
@@ -93,7 +96,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
         List<HaircutEntry> haircuts = new ArrayList<>();
 
         for (var haircut : state.haircuts().values()) {
-            if (!haircut.ownerId().equals(player.getUuid())) continue;
+            String ownerName = player.server.getUserCache().getByUuid(haircut.ownerId()).map(GameProfile::getName).orElse(haircut.ownerId().toString());
 
             byte[] data;
 
@@ -104,7 +107,9 @@ public class BarberStationScreenHandler extends ScreenHandler {
                 throw new RuntimeException("explosion", e);
             }
 
-            haircuts.add(new HaircutEntry(haircut.id(), haircut.name(), data));
+            boolean canDelete = haircut.ownerId().equals(player.getUuid()) || HaircutLimits.canDelete(player);
+
+            haircuts.add(new HaircutEntry(haircut.id(), haircut.name(), ownerName, canDelete, data));
         }
 
         sendMessage(new InfoResponse(
@@ -157,5 +162,5 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public record RequestInfo() { }
     public record InfoResponse(List<HaircutEntry> haircuts, int maxTotalSize, int maxTotalSlots, boolean canCreate) { }
 
-    public record HaircutEntry(UUID id, String name, byte[] data) { }
+    public record HaircutEntry(UUID id, String name, String ownerName, boolean canDelete, byte[] data) { }
 }

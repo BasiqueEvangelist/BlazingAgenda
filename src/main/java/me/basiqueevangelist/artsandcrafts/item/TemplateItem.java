@@ -63,12 +63,7 @@ public class TemplateItem extends Item implements EarlyUseOnEntity {
             if (entry != null) {
                 String owner = entry.ownerName() != null ? entry.ownerName() : entry.ownerId().toString();
 
-                tooltip.add(Text.literal("")
-                    .append(Text.literal(entry.name())
-                        .formatted(Formatting.GRAY))
-                    .append(Text.literal(" by "))
-                    .append(Text.literal(owner)
-                        .formatted(Formatting.AQUA)));
+                tooltip.add(Text.translatable("text.artsandcrafts.haircutName", entry.name(), owner));
             } else {
                 tooltip.add(Text.translatable("item.artsandcrafts.template.notLoaded"));
             }

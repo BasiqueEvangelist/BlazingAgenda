@@ -66,6 +66,19 @@
         },
         " for more info"
     ],
+    "text.artsandcrafts.write_to_template": "Write to template",
+    "text.artsandcrafts.haircutName": [
+        "",
+        {"index": 0, "color": "gray"},
+        " by ",
+        {"index": 1, "color": "aqua"}
+    ],
+    "text.artsandcrafts.haircutNameDark": [
+        "",
+        {"index": 0, "color": "dark_gray"},
+        {"text": " by ", "color": "black"},
+        {"index": 1, "color": "dark_blue"}
+    ],
 
     "error.artsandcrafts.noHaircutHeld": "No haircut template in hand",
     "error.artsandcrafts.noHaircutTarget": "Target has no haircut assigned"

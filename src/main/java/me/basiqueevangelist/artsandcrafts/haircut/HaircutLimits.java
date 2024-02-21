@@ -10,7 +10,7 @@ public final class HaircutLimits {
     }
 
     public static boolean canUpload(ServerPlayerEntity player) {
-        return Permissions.check(player, "artsandcrafts.uploadHaircut", true);
+        return Permissions.check(player, "artsandcrafts.uploadHaircut", 3);
     }
 
     public static boolean canApply(ServerPlayerEntity player) {
@@ -19,6 +19,10 @@ public final class HaircutLimits {
 
     public static boolean canCopy(ServerPlayerEntity player) {
         return Permissions.check(player, "artsandcrafts.copyHaircut", true);
+    }
+
+    public static boolean canDelete(ServerPlayerEntity player) {
+        return Permissions.check(player, "artsandcrafts.deleteHaircut", 3);
     }
 
     public static int maxHaircutSlots(ServerPlayerEntity player) {

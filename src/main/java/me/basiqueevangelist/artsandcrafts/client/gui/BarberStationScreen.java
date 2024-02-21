@@ -67,7 +67,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
 
         haircutsContainer
             .gap(5)
-            .margins(Insets.of(5));
+            .margins(Insets.of(5))
+            .padding(Insets.bottom(25));
 
         haircutsContainer
             .child(Containers.horizontalFlow(Sizing.fill(100), Sizing.content())
@@ -151,7 +152,7 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
             for (var haircut : haircuts.haircuts()) {
                 var tx = new DownloadedTexture(haircut.data());
 
-                var haircutFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
+                var haircutFlow = Containers.verticalFlow(Sizing.fixed(125), Sizing.fixed(100));
                 haircutFlow
                     .gap(2)
                     .padding(Insets.of(5))
@@ -163,7 +164,8 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 imgComponent
                     .preserveAspectRatio(true)
                     .cursorStyle(CursorStyle.HAND)
-                    .horizontalSizing(Sizing.fill(100));
+                    .horizontalSizing(Sizing.fill(100))
+                    .tooltip(Text.translatable("text.artsandcrafts.write_to_template"));
 
                 imgComponent.mouseDown().subscribe((mouseX, mouseY, button) -> {
                     if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
@@ -178,25 +180,30 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 haircutFlow.child(Containers.verticalFlow(Sizing.fill(100), Sizing.fill(85))
                     .child(imgComponent));
 
-                var cross = Components.label(Text.literal("❌")
-                    .formatted(Formatting.RED));
+                var textRow = Containers.horizontalFlow(Sizing.content(), Sizing.content())
+                    .child(Components.label(Text.translatable("text.artsandcrafts.haircutNameDark", haircut.name(), haircut.ownerName())
+                            .formatted(Formatting.BLACK))
+                        .margins(Insets.right(5)));
 
-                GuiUtil.semiButton(cross, () -> {
-                    haircutFlow.remove();
-                    getScreenHandler().sendMessage(new BarberStationScreenHandler.DeleteHaircut(haircut.id()));
-                    getScreenHandler().sendMessage(new BarberStationScreenHandler.RequestInfo());
-                });
+                if (haircut.canDelete()) {
+                    var cross = Components.label(Text.literal("❌")
+                        .formatted(Formatting.RED));
 
-                haircutFlow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                    .child(Components.label(Text.literal(haircut.name()).formatted(Formatting.BLACK))
-                        .margins(Insets.right(5)))
-                    .child(cross));
+                    GuiUtil.semiButton(cross, () -> {
+                        getScreenHandler().sendMessage(new BarberStationScreenHandler.DeleteHaircut(haircut.id()));
+                        getScreenHandler().sendMessage(new BarberStationScreenHandler.RequestInfo());
+                    });
+
+                    textRow.child(cross);
+                }
+
+                haircutFlow.child(textRow);
 
                 container.child(haircutFlow);
             }
 
             if (haircuts.canCreate()) {
-                var addFlow = Containers.verticalFlow(Sizing.fill(19), Sizing.fixed(100));
+                var addFlow = Containers.verticalFlow(Sizing.fixed(125), Sizing.fixed(100));
 
                 addFlow
                     .gap(2)
