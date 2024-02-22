@@ -3,6 +3,7 @@ package me.basiqueevangelist.artsandcrafts;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import me.basiqueevangelist.artsandcrafts.block.ArtsAndCraftsBlocks;
 import me.basiqueevangelist.artsandcrafts.command.DeleteCommand;
+import me.basiqueevangelist.artsandcrafts.command.ReloadCommand;
 import me.basiqueevangelist.artsandcrafts.item.ArtsAndCraftsItems;
 import me.basiqueevangelist.artsandcrafts.item.EarlyUseOnEntity;
 import me.basiqueevangelist.artsandcrafts.network.ArtsAndCraftsNetworking;
@@ -30,6 +31,7 @@ public class ArtsAndCrafts implements ModInitializer {
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			DeleteCommand.register(dispatcher);
+			ReloadCommand.register(dispatcher);
 		});
 
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {

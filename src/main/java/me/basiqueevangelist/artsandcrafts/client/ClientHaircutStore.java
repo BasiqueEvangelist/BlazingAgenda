@@ -57,6 +57,10 @@ public final class ClientHaircutStore {
         }
     }
 
+    public static void clear() {
+        CACHE.invalidateAll();
+    }
+
     public static class Entry {
         private boolean filledIn = false;
         private UUID id;

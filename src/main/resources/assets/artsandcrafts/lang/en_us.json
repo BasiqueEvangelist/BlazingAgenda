@@ -53,6 +53,8 @@
     "message.artsandcrafts.permissionDenied": "Permission denied",
     "message.artsandcrafts.loading": "Loading...",
 
+    "command.artsandcrafts.reload_successful": "Reloaded Arts and Crafts storages",
+
     "text.artsandcrafts.tooltip_hint": [
         {
             "text": "Hold ",

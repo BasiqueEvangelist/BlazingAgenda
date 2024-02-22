@@ -43,5 +43,6 @@ public class ArtsAndCraftsNetworking {
         });
 
         CHANNEL.registerClientboundDeferred(HaircutS2CPacket.class);
+        CHANNEL.registerClientboundDeferred(ReloadAllS2CPacket.class);
     }
 }
