@@ -1,8 +1,0 @@
-{
-    "item.scissors.use": {
-        "sounds": [
-            "mob/sheep/shear"
-        ],
-        "subtitle": "subtitles.blazing-agenda.scissors.use"
-    }
-}

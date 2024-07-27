@@ -161,24 +161,13 @@ public class BarberStationScreen extends BaseOwoHandledScreen<FlowLayout, Barber
                 imgComponent
                     .preserveAspectRatio(true)
                     .cursorStyle(CursorStyle.HAND)
-                    .horizontalSizing(Sizing.fill(100))
-                    .tooltip(Text.translatable("text.blazing-agenda.write_to_template"));
-
-                imgComponent.mouseDown().subscribe((mouseX, mouseY, button) -> {
-                    if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
-
-                    UISounds.playButtonSound();
-
-                    getScreenHandler().sendMessage(new BarberStationScreenHandler.ExchangeHaircut(haircut.id(), 1));
-
-                    return true;
-                });
+                    .horizontalSizing(Sizing.fill(100));
 
                 haircutFlow.child(Containers.verticalFlow(Sizing.fill(100), Sizing.fill(85))
                     .child(imgComponent));
 
                 var textRow = Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                    .child(Components.label(Text.translatable("text.blazing-agenda.haircutNameDark", haircut.name(), haircut.ownerName())
+                    .child(Components.label(Text.translatable("text.blazing-agenda.costumeNameDark", haircut.name(), haircut.ownerName())
                             .formatted(Formatting.BLACK))
                         .margins(Insets.right(5)));
 

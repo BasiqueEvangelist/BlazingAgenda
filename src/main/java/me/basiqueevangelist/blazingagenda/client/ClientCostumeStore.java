@@ -13,7 +13,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public final class ClientHaircutStore {
+public final class ClientCostumeStore {
     private static final Cache<UUID, Entry> CACHE = CacheBuilder.newBuilder()
         .expireAfterAccess(5, TimeUnit.SECONDS)
         .<UUID, Entry>removalListener(notification -> {

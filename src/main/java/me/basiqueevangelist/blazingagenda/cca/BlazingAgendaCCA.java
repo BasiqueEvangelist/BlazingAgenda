@@ -8,10 +8,10 @@ import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 
 public class BlazingAgendaCCA implements EntityComponentInitializer {
-    public static final ComponentKey<HaircutComponent> HAIRCUT = ComponentRegistry.getOrCreate(BlazingAgenda.id("haircut"), HaircutComponent.class);
+    public static final ComponentKey<CostumeComponent> COSTUME = ComponentRegistry.getOrCreate(BlazingAgenda.id("haircut"), CostumeComponent.class);
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-        registry.registerFor(Entity.class, HAIRCUT, HaircutComponent::new);
+        registry.registerFor(Entity.class, COSTUME, CostumeComponent::new);
     }
 }

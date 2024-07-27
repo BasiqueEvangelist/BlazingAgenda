@@ -3,7 +3,7 @@ package me.basiqueevangelist.blazingagenda.network;
 import com.mojang.authlib.GameProfile;
 import io.wispforest.owo.network.OwoNetChannel;
 import me.basiqueevangelist.blazingagenda.BlazingAgenda;
-import me.basiqueevangelist.blazingagenda.haircut.HaircutsState;
+import me.basiqueevangelist.blazingagenda.haircut.BlazingAgendaState;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,9 +16,9 @@ public class BlazingAgendaNetworking {
         CHANNEL.registerServerbound(RequestHaircutC2SPacket.class, (packet, access) -> {
             // todo: ratelimiting
 
-            HaircutsState state = HaircutsState.get(access.runtime());
+            BlazingAgendaState state = BlazingAgendaState.get(access.runtime());
 
-            var haircut = state.haircuts().get(packet.haircutId());
+            var haircut = state.costumes().get(packet.haircutId());
 
             if (haircut == null) return;
 

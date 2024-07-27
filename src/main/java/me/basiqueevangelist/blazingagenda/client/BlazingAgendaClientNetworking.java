@@ -15,11 +15,11 @@ public final class BlazingAgendaClientNetworking {
 
     public static void init() {
         BlazingAgendaNetworking.CHANNEL.registerClientbound(HaircutS2CPacket.class, (packet, access) -> {
-            ClientHaircutStore.acceptPacket(packet);
+            ClientCostumeStore.acceptPacket(packet);
         });
 
         BlazingAgendaNetworking.CHANNEL.registerClientbound(ReloadAllS2CPacket.class, (packet, access) -> {
-            ClientHaircutStore.clear();
+            ClientCostumeStore.clear();
         });
     }
 }

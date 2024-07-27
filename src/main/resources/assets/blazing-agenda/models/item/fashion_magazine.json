@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "blazing-agenda:item/filled_template"
+        "layer0": "blazing-agenda:item/fashion_magazine"
     }
 }

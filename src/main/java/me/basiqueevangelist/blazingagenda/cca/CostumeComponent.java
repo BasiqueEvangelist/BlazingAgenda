@@ -1,6 +1,6 @@
 package me.basiqueevangelist.blazingagenda.cca;
 
-import me.basiqueevangelist.blazingagenda.haircut.HaircutsState;
+import me.basiqueevangelist.blazingagenda.haircut.BlazingAgendaState;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -14,57 +14,57 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.UUID;
 
-public class HaircutComponent implements Component, AutoSyncedComponent, ServerTickingComponent {
+public class CostumeComponent implements Component, AutoSyncedComponent, ServerTickingComponent {
     private final Entity entity;
-    private UUID haircutId = Util.NIL_UUID;
+    private UUID costumeId = Util.NIL_UUID;
 
-    public HaircutComponent(Entity entity) {
+    public CostumeComponent(Entity entity) {
         this.entity = entity;
     }
 
-    public UUID haircutId() {
-        return haircutId;
+    public UUID costumeId() {
+        return costumeId;
     }
 
-    public void setHaircutId(UUID haircutId) {
-        this.haircutId = haircutId;
+    public void setCostumeId(UUID haircutId) {
+        this.costumeId = haircutId;
 
-        BlazingAgendaCCA.HAIRCUT.sync(entity);
+        BlazingAgendaCCA.COSTUME.sync(entity);
     }
 
     @Override
     public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-        if (tag.contains("HaircutId", NbtElement.INT_ARRAY_TYPE))
-            haircutId = tag.getUuid("HaircutId");
+        if (tag.contains("CostumeId", NbtElement.INT_ARRAY_TYPE))
+            costumeId = tag.getUuid("CostumeId");
         else
-            haircutId = Util.NIL_UUID;
+            costumeId = Util.NIL_UUID;
     }
 
     @Override
     public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-        if (!haircutId.equals(Util.NIL_UUID))
-            tag.putUuid("HaircutId", haircutId);
+        if (!costumeId.equals(Util.NIL_UUID))
+            tag.putUuid("CostumeId", costumeId);
     }
 
     @Override
     public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
-        buf.writeUuid(haircutId);
+        buf.writeUuid(costumeId);
     }
 
     @Override
     public void applySyncPacket(RegistryByteBuf buf) {
-        haircutId = buf.readUuid();
+        costumeId = buf.readUuid();
     }
 
     @Override
     public void serverTick() {
         if (entity.getEntityWorld().getTime() % 16 != 0) return;
 
-        var state = HaircutsState.get(entity.getServer());
+        var state = BlazingAgendaState.get(entity.getServer());
 
-        if (!haircutId.equals(Util.NIL_UUID) && state.haircuts().get(haircutId) == null) {
-            haircutId = Util.NIL_UUID;
-            BlazingAgendaCCA.HAIRCUT.sync(entity);
+        if (!costumeId.equals(Util.NIL_UUID) && state.costumes().get(costumeId) == null) {
+            costumeId = Util.NIL_UUID;
+            BlazingAgendaCCA.COSTUME.sync(entity);
         }
     }
 }

@@ -9,7 +9,7 @@ import net.minecraft.util.Uuids;
 import java.util.UUID;
 
 public class BlazingAgendaComponents implements AutoRegistryContainer<ComponentType<?>> {
-    public static final ComponentType<UUID> HAIRCUT_ID = ComponentType.<UUID>builder()
+    public static final ComponentType<UUID> COSTUME_ID = ComponentType.<UUID>builder()
         .codec(Uuids.CODEC)
         .packetCodec(Uuids.PACKET_CODEC)
         .build();

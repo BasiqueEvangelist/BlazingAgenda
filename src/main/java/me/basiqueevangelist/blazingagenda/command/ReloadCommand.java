@@ -2,7 +2,7 @@ package me.basiqueevangelist.blazingagenda.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
-import me.basiqueevangelist.blazingagenda.haircut.HaircutsState;
+import me.basiqueevangelist.blazingagenda.haircut.BlazingAgendaState;
 import me.basiqueevangelist.blazingagenda.mixin.PersistentStateManagerAccessor;
 import me.basiqueevangelist.blazingagenda.network.BlazingAgendaNetworking;
 import me.basiqueevangelist.blazingagenda.network.ReloadAllS2CPacket;
@@ -29,7 +29,7 @@ public final class ReloadCommand {
 
         server.getOverworld().getPersistentStateManager().save();
         ((PersistentStateManagerAccessor) server.getOverworld().getPersistentStateManager()).getLoadedStates().remove("blazing-agenda");
-        HaircutsState.get(server);
+        BlazingAgendaState.get(server);
 
         BlazingAgendaNetworking.CHANNEL.serverHandle(server).send(new ReloadAllS2CPacket());
 

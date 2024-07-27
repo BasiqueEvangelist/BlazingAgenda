@@ -3,22 +3,13 @@
     "text.blazing-agenda.barber_station_screen": "Barber Station",
     "text.blazing-agenda.drag_or_click_to_add": "Drag and drop or click to add haircut",
 
-    "item.blazing-agenda.empty_template": "Empty Template",
-    "item.blazing-agenda.empty_template.tooltip": [
-        "Fashion in the ",
-        {
-            "text": "Barber Station",
-            "color": "blue"
-        },
-        " or use on a mob to copy"
-    ],
-    "item.blazing-agenda.template": "Template",
-    "item.blazing-agenda.template.notLoaded": {
+    "item.blazing-agenda.fashion_magazine": "Fashion Magazine",
+    "item.blazing-agenda.fashion_magazine.notLoaded": {
         "text": "???",
         "color": "gray"
     },
-    "item.blazing-agenda.template.withName":  [
-        "Template",
+    "item.blazing-agenda.fashion_magazine.withName":  [
+        "Fashion Magazine",
         {
             "text": " [",
             "color": "dark_gray"
@@ -32,23 +23,18 @@
             "color": "dark_gray"
         }
     ],
-    "item.blazing-agenda.template.haircutId": [
+    "item.blazing-agenda.fashion_magazine.haircutId": [
         {
             "text": "ID: ",
             "color": "dark_gray"
         },
         { "index": 0 }
     ],
-    "item.blazing-agenda.scissors": "Scissors",
-    "item.blazing-agenda.scissors.tooltip.1": "Use on a mob with a template in",
-    "item.blazing-agenda.scissors.tooltip.2": "your offhand to apply haircut",
 
     "itemGroup.blazing-agenda.item_group": "Blazing Agenda",
     "itemGroup.blazing-agenda.item_group.button.github": "GitHub",
     "itemGroup.blazing-agenda.item_group.button.modrinth": "Modrinth",
     "itemGroup.blazing-agenda.item_group.button.discord": "Discord",
-
-    "subtitles.blazing-agenda.scissors.use": "Scissors click",
 
     "message.blazing-agenda.permissionDenied": "Permission denied",
     "message.blazing-agenda.loading": "Loading...",
@@ -66,20 +52,16 @@
         },
         " for more info"
     ],
-    "text.blazing-agenda.write_to_template": "Write to template",
-    "text.blazing-agenda.haircutName": [
+    "text.blazing-agenda.costumeName": [
         "",
         {"index": 0, "color": "gray"},
         " by ",
         {"index": 1, "color": "aqua"}
     ],
-    "text.blazing-agenda.haircutNameDark": [
+    "text.blazing-agenda.costumeNameDark": [
         "",
         {"index": 0, "color": "dark_gray"},
         {"text": " by ", "color": "black"},
         {"index": 1, "color": "dark_blue"}
-    ],
-
-    "error.blazing-agenda.noHaircutHeld": "No haircut template in hand",
-    "error.blazing-agenda.noHaircutTarget": "Target has no haircut assigned"
+    ]
 }

@@ -3,7 +3,7 @@ package me.basiqueevangelist.blazingagenda.screen;
 import com.mojang.authlib.GameProfile;
 import io.wispforest.owo.client.screens.SlotGenerator;
 import me.basiqueevangelist.blazingagenda.haircut.HaircutLimits;
-import me.basiqueevangelist.blazingagenda.haircut.HaircutsState;
+import me.basiqueevangelist.blazingagenda.haircut.BlazingAgendaState;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -42,7 +42,6 @@ public class BarberStationScreenHandler extends ScreenHandler {
         addServerboundMessage(UploadHaircut.class, this::onUploadHaircut);
         addServerboundMessage(RequestInfo.class, this::onRequestInfo);
         addServerboundMessage(DeleteHaircut.class, this::onDeleteHaircut);
-        addServerboundMessage(ExchangeHaircut.class, this::onExchangeHaircut);
 
         addClientboundMessage(UploadSucceeded.class, packet -> {
             if (uploadSucceeded != null) uploadSucceeded.accept(packet);
@@ -57,32 +56,11 @@ public class BarberStationScreenHandler extends ScreenHandler {
         });
     }
 
-    private void onExchangeHaircut(ExchangeHaircut packet) {
-        HaircutsState state = HaircutsState.get(player().getServer());
-
-        var cut = state.haircuts().get(packet.id());
-        if (!cut.ownerId().equals(player().getUuid())) return;
-
-        var storage = PlayerInventoryStorage.of(inv);
-
-        var template = ItemVariant.of(BlazingAgendaItems.TEMPLATE, ComponentChanges.builder()
-            .add(BlazingAgendaComponents.HAIRCUT_ID, packet.id())
-            .build());
-
-        try (var tx = Transaction.openOuter()) {
-            var total = storage.extract(ItemVariant.of(BlazingAgendaItems.TEMPLATE), packet.max(), tx);
-
-            storage.offerOrDrop(template, total, tx);
-
-            tx.commit();
-        }
-    }
-
     private void onDeleteHaircut(DeleteHaircut packet) {
         ServerPlayerEntity player = (ServerPlayerEntity) player();
-        HaircutsState state = HaircutsState.get(player.server);
+        BlazingAgendaState state = BlazingAgendaState.get(player.server);
 
-        var cut = state.haircuts().get(packet.id());
+        var cut = state.costumes().get(packet.id());
         if (!cut.ownerId().equals(player.getUuid()) && !HaircutLimits.canDelete(player)) return;
 
         state.deleteHaircut(cut);
@@ -90,10 +68,10 @@ public class BarberStationScreenHandler extends ScreenHandler {
 
     private void onRequestInfo(RequestInfo packet) {
         ServerPlayerEntity player = (ServerPlayerEntity) player();
-        HaircutsState state = HaircutsState.get(player.server);
+        BlazingAgendaState state = BlazingAgendaState.get(player.server);
         List<HaircutEntry> haircuts = new ArrayList<>();
 
-        for (var haircut : state.haircuts().values()) {
+        for (var haircut : state.costumes().values()) {
             String ownerName = player.server.getUserCache().getByUuid(haircut.ownerId()).map(GameProfile::getName).orElse(haircut.ownerId().toString());
 
             byte[] data;
@@ -124,7 +102,7 @@ public class BarberStationScreenHandler extends ScreenHandler {
             return;
         }
 
-        HaircutsState state = HaircutsState.get(player.server);
+        BlazingAgendaState state = BlazingAgendaState.get(player.server);
 
         var haircut = state.add(player.getUuid(), packet.name(), packet.pngData());
 
@@ -146,7 +124,6 @@ public class BarberStationScreenHandler extends ScreenHandler {
     public record UploadRejected(String name, Text errorMessage) { }
 
     public record DeleteHaircut(UUID id) {}
-    public record ExchangeHaircut(UUID id, int max) {}
 
     public record RequestInfo() { }
     public record InfoResponse(List<HaircutEntry> haircuts, boolean canUpload) { }

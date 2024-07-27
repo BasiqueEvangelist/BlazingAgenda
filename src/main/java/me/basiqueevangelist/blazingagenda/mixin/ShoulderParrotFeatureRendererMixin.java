@@ -2,7 +2,7 @@ package me.basiqueevangelist.blazingagenda.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import me.basiqueevangelist.blazingagenda.client.ClientHaircutStore;
+import me.basiqueevangelist.blazingagenda.client.ClientCostumeStore;
 import net.minecraft.client.render.entity.feature.ShoulderParrotFeatureRenderer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
@@ -23,7 +23,7 @@ public class ShoulderParrotFeatureRendererMixin {
 
         if (haircutId.equals(Util.NIL_UUID)) return original;
 
-        var entry = ClientHaircutStore.get(haircutId);
+        var entry = ClientCostumeStore.get(haircutId);
 
         if (entry == null) return original;
 

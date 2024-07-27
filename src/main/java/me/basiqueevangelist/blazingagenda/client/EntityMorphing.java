@@ -19,11 +19,11 @@ public final class EntityMorphing {
 
         if (current == null) return original;
 
-        UUID haircutId = HaircutContext.haircutId();
+        UUID costumeId = CostumeContext.costumeId();
 
-        if (haircutId.equals(Util.NIL_UUID)) return original;
+        if (costumeId.equals(Util.NIL_UUID)) return original;
 
-        var entry = ClientHaircutStore.get(haircutId);
+        var entry = ClientCostumeStore.get(costumeId);
 
         if (entry == null) return original;
 
@@ -39,11 +39,11 @@ public final class EntityMorphing {
 
         if (current == null) return original;
 
-        UUID haircutId = HaircutContext.haircutId();
+        UUID costumeId = CostumeContext.costumeId();
 
-        if (haircutId.equals(Util.NIL_UUID)) return original;
+        if (costumeId.equals(Util.NIL_UUID)) return original;
 
-        var entry = ClientHaircutStore.get(haircutId);
+        var entry = ClientCostumeStore.get(costumeId);
 
         if (entry == null) return original;
 

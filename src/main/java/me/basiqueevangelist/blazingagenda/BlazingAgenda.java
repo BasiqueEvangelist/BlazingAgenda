@@ -2,7 +2,6 @@ package me.basiqueevangelist.blazingagenda;
 
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import me.basiqueevangelist.blazingagenda.block.BlazingAgendaBlocks;
-import me.basiqueevangelist.blazingagenda.command.DeleteCommand;
 import me.basiqueevangelist.blazingagenda.command.ReloadCommand;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
@@ -32,7 +31,6 @@ public class BlazingAgenda implements ModInitializer {
 		FieldRegistrationHandler.processSimple(BlazingAgendaSounds.class, false);
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-			DeleteCommand.register(dispatcher);
 			ReloadCommand.register(dispatcher);
 		});
 
