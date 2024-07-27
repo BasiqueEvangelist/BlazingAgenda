@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "down": "minecraft:block/birch_planks",
+        "east": "blazing-agenda:block/barber_station_side",
+        "north": "blazing-agenda:block/barber_station_side",
+        "particle": "blazing-agenda:block/barber_station_side",
+        "south": "blazing-agenda:block/barber_station_side",
+        "up": "blazing-agenda:block/barber_station_top",
+        "west": "blazing-agenda:block/barber_station_side"
+    }
+}

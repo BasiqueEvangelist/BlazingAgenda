@@ -1,0 +1,14 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "blazing-agenda:item/template"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "blazing-agenda:is_filled": 1
+            },
+            "model": "blazing-agenda:item/filled_template"
+        }
+    ]
+}

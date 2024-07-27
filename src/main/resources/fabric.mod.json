@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "artsandcrafts",
+	"id": "blazing-agenda",
 	"version": "${version}",
-	"name": "Arts and Crafts",
+	"name": "Blazing Agenda",
 	"description": "Player-made synced mob skins",
 	"authors": [
 		"BasiqueEvangelist"
@@ -11,30 +11,30 @@
 		"Dr_Zeal"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/artsandcrafts",
-		"sources": "https://github.com/BasiqueEvangelist/ArtsAndCrafts"
+		"homepage": "https://modrinth.com/mod/blazing-agenda",
+		"sources": "https://github.com/BasiqueEvangelist/BlazingAgenda"
 	},
 	"license": "LGPL-3.0-only",
-	"icon": "assets/artsandcrafts/textures/item/scissors.png",
+	"icon": "assets/blazing-agenda/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"me.basiqueevangelist.artsandcrafts.ArtsAndCrafts"
+			"me.basiqueevangelist.blazingagenda.BlazingAgenda"
 		],
 		"client": [
-			"me.basiqueevangelist.artsandcrafts.client.ArtsAndCraftsClient"
+			"me.basiqueevangelist.blazingagenda.client.BlazingAgendaClient"
 		],
 		"cardinal-components": [
-			"me.basiqueevangelist.artsandcrafts.cca.ArtsAndCraftsCCA"
+			"me.basiqueevangelist.blazingagenda.cca.BlazingAgendaCCA"
 		]
 	},
-	"accessWidener": "artsandcrafts.accesswidener",
+	"accessWidener": "blazing-agenda.accesswidener",
 	"mixins": [
-		"artsandcrafts.mixins.json"
+		"blazing-agenda.mixins.json"
 	],
 	"custom": {
 		"cardinal-components": [
-			"artsandcrafts:haircut"
+			"blazing-agenda:haircut"
 		]
 	},
 	"depends": {

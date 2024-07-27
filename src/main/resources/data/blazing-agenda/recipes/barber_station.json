@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "W": {
+            "tag": "minecraft:planks"
+        },
+        "T": {
+            "item": "blazing-agenda:template"
+        }
+    },
+    "pattern": [
+        "WWW",
+        "WTW",
+        "WWW"
+    ],
+    "result": {
+        "item": "blazing-agenda:barber_station"
+    }
+}

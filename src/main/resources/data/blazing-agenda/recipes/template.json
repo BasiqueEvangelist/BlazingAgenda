@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "P": {
+            "item": "minecraft:paper"
+        },
+        "S": {
+            "item": "minecraft:slime_ball"
+        }
+    },
+    "pattern": [
+        "PPP",
+        "PSP",
+        "PPP"
+    ],
+    "result": {
+        "item": "blazing-agenda:template",
+        "count": 8
+    }
+}
