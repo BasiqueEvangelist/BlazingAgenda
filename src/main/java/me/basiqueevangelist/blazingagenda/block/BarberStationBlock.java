@@ -1,7 +1,7 @@
 package me.basiqueevangelist.blazingagenda.block;
 
 import me.basiqueevangelist.blazingagenda.screen.BarberStationScreenHandler;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -11,18 +11,17 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BarberStationBlock extends Block {
     public BarberStationBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.FLETCHING_TABLE));
+        super(AbstractBlock.Settings.copy(Blocks.FLETCHING_TABLE));
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         var factory = new NamedScreenHandlerFactory() {
             @Override
             public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {

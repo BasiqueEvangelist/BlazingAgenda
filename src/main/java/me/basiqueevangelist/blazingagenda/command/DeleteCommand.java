@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import me.basiqueevangelist.blazingagenda.cca.BlazingAgendaCCA;
 import me.basiqueevangelist.blazingagenda.haircut.HaircutsState;
+import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
 import me.basiqueevangelist.blazingagenda.item.TemplateItem;
 import me.lucko.fabric.api.permissions.v0.Permissions;
@@ -75,10 +76,10 @@ public final class DeleteCommand {
         var player = ctx.getSource().getPlayerOrThrow();
         var handStack = player.getStackInHand(Hand.MAIN_HAND);
 
-        if (!handStack.isOf(BlazingAgendaItems.TEMPLATE) || !handStack.has(TemplateItem.HAIRCUT))
+        if (!handStack.isOf(BlazingAgendaItems.TEMPLATE) || !handStack.contains(BlazingAgendaComponents.HAIRCUT_ID))
             throw NO_HAIRCUT_HELD.create();
 
-        var haircutId = handStack.get(TemplateItem.HAIRCUT);
+        var haircutId = handStack.get(BlazingAgendaComponents.HAIRCUT_ID);
         var state = HaircutsState.get(ctx.getSource().getServer());
         var haircut = state.haircuts().get(haircutId);
 

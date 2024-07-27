@@ -7,13 +7,14 @@ import me.basiqueevangelist.blazingagenda.haircut.HaircutLimits;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -49,7 +50,7 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
         HaircutComponent component = entity.getComponent(BlazingAgendaCCA.HAIRCUT);
 
         if (offStack.isOf(BlazingAgendaItems.TEMPLATE)) {
-            haircutId = offStack.getOr(TemplateItem.HAIRCUT, Util.NIL_UUID);
+            haircutId = offStack.getOrDefault(BlazingAgendaComponents.HAIRCUT_ID, Util.NIL_UUID);
         }
 
         if (component.haircutId().equals(haircutId))
@@ -60,7 +61,7 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
         if (user.getWorld().isClient) return ActionResult.SUCCESS;
 
         component.setHaircutId(haircutId);
-        stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
+        stack.damage(1, user, LivingEntity.getSlotForHand(hand));
 
         return ActionResult.SUCCESS;
     }
@@ -78,7 +79,7 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
         HaircutComponent component = user.getComponent(BlazingAgendaCCA.HAIRCUT);
 
         if (offStack.isOf(BlazingAgendaItems.TEMPLATE)) {
-            haircutId = offStack.getOr(TemplateItem.HAIRCUT, Util.NIL_UUID);
+            haircutId = offStack.getOrDefault(BlazingAgendaComponents.HAIRCUT_ID, Util.NIL_UUID);
         }
 
         if (component.haircutId().equals(haircutId))
@@ -89,14 +90,14 @@ public class ScissorsItem extends Item implements EarlyUseOnEntity {
         if (user.getWorld().isClient) return TypedActionResult.success(stack);
 
         component.setHaircutId(haircutId);
-        stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
+        stack.damage(1, user, LivingEntity.getSlotForHand(hand));
 
         return TypedActionResult.success(stack);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (Screen.hasShiftDown()) {
             tooltip.add(Text.translatable("item.blazing-agenda.scissors.tooltip.1"));
             tooltip.add(Text.translatable("item.blazing-agenda.scissors.tooltip.2"));

@@ -25,7 +25,7 @@ public class DownloadedTexture implements AutoCloseable {
     private final Cleaner.Cleanable cleanable;
 
     public DownloadedTexture(byte[] data) {
-        this.id = new Identifier(BlazingAgenda.MOD_ID, "downloaded/" + UUID.randomUUID().toString().toLowerCase(Locale.ROOT));
+        this.id = BlazingAgenda.id("downloaded/" + UUID.randomUUID().toString().toLowerCase(Locale.ROOT));
 
         var imgBuf = MemoryUtil.memAlloc(data.length);
         try {

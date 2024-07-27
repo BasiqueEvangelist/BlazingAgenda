@@ -3,6 +3,7 @@ package me.basiqueevangelist.blazingagenda.haircut;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.world.PersistentState;
@@ -43,8 +44,11 @@ public class HaircutsState extends PersistentState {
 
     public static HaircutsState get(MinecraftServer server) {
         return server.getOverworld().getPersistentStateManager().getOrCreate(
-            tag -> new HaircutsState(server, tag),
-            () -> new HaircutsState(server),
+            new Type<>(
+                () -> new HaircutsState(server),
+                (tag, registries) -> new HaircutsState(server, tag),
+                null
+            ),
             "blazing-agenda"
         );
     }
@@ -91,7 +95,7 @@ public class HaircutsState extends PersistentState {
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
+    public NbtCompound writeNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         NbtList haircutsTag = new NbtList();
         tag.put("Haircuts", haircutsTag);
 

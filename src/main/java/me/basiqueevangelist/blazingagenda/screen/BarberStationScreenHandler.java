@@ -4,15 +4,15 @@ import com.mojang.authlib.GameProfile;
 import io.wispforest.owo.client.screens.SlotGenerator;
 import me.basiqueevangelist.blazingagenda.haircut.HaircutLimits;
 import me.basiqueevangelist.blazingagenda.haircut.HaircutsState;
+import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
-import me.basiqueevangelist.blazingagenda.item.TemplateItem;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -57,7 +57,6 @@ public class BarberStationScreenHandler extends ScreenHandler {
         });
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private void onExchangeHaircut(ExchangeHaircut packet) {
         HaircutsState state = HaircutsState.get(player().getServer());
 
@@ -66,9 +65,9 @@ public class BarberStationScreenHandler extends ScreenHandler {
 
         var storage = PlayerInventoryStorage.of(inv);
 
-        NbtCompound tag = new NbtCompound();
-        tag.put(TemplateItem.HAIRCUT, packet.id());
-        var template = ItemVariant.of(BlazingAgendaItems.TEMPLATE, tag);
+        var template = ItemVariant.of(BlazingAgendaItems.TEMPLATE, ComponentChanges.builder()
+            .add(BlazingAgendaComponents.HAIRCUT_ID, packet.id())
+            .build());
 
         try (var tx = Transaction.openOuter()) {
             var total = storage.extract(ItemVariant.of(BlazingAgendaItems.TEMPLATE), packet.max(), tx);

@@ -2,6 +2,7 @@ package me.basiqueevangelist.blazingagenda.client;
 
 import me.basiqueevangelist.blazingagenda.BlazingAgenda;
 import me.basiqueevangelist.blazingagenda.client.gui.BarberStationScreen;
+import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
 import me.basiqueevangelist.blazingagenda.item.TemplateItem;
 import me.basiqueevangelist.blazingagenda.screen.BlazingAgendaScreenHandlers;
@@ -27,7 +28,7 @@ public class BlazingAgendaClient implements ClientModInitializer {
         ModelPredicateProviderRegistry.register(
             BlazingAgendaItems.TEMPLATE,
             BlazingAgenda.id("is_filled"),
-            (stack, world, entity, seed) -> stack.has(TemplateItem.HAIRCUT) ? 1 : 0
+            (stack, world, entity, seed) -> stack.contains(BlazingAgendaComponents.HAIRCUT_ID) ? 1 : 0
         );
 
         HandledScreens.register(BlazingAgendaScreenHandlers.BARBER_STATION, BarberStationScreen::new);

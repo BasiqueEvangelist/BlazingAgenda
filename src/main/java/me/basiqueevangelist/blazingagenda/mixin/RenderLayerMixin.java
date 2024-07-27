@@ -18,7 +18,7 @@ public class RenderLayerMixin {
     }
 
     @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Util;memoize(Ljava/util/function/BiFunction;)Ljava/util/function/BiFunction;"))
-    private static BiFunction<Identifier, Boolean, RenderLayer> mald(BiFunction<Identifier, Boolean, RenderLayer> original) {
-        return (id, bool) -> original.apply(EntityMorphing.morphTextureId(id), bool);
+    private static BiFunction<Identifier, Object, RenderLayer> mald(BiFunction<Identifier, Object, RenderLayer> original) {
+        return (id, obj) -> original.apply(EntityMorphing.morphTextureId(id), obj);
     }
 }

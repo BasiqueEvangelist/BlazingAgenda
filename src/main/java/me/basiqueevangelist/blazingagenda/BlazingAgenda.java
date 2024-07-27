@@ -4,6 +4,7 @@ import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import me.basiqueevangelist.blazingagenda.block.BlazingAgendaBlocks;
 import me.basiqueevangelist.blazingagenda.command.DeleteCommand;
 import me.basiqueevangelist.blazingagenda.command.ReloadCommand;
+import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
 import me.basiqueevangelist.blazingagenda.item.EarlyUseOnEntity;
 import me.basiqueevangelist.blazingagenda.network.BlazingAgendaNetworking;
@@ -18,7 +19,7 @@ public class BlazingAgenda implements ModInitializer {
 	public static final String MOD_ID = "blazing-agenda";
 
 	public static Identifier id(String path) {
-		return new Identifier(MOD_ID, path);
+		return Identifier.of(MOD_ID, path);
 	}
 
 	@Override
@@ -26,6 +27,7 @@ public class BlazingAgenda implements ModInitializer {
 		BlazingAgendaNetworking.init();
 		FieldRegistrationHandler.register(BlazingAgendaBlocks.class, MOD_ID, false);
 		FieldRegistrationHandler.register(BlazingAgendaScreenHandlers.class, MOD_ID, false);
+		FieldRegistrationHandler.register(BlazingAgendaComponents.class, MOD_ID, false);
 		FieldRegistrationHandler.register(BlazingAgendaItems.class, MOD_ID, false);
 		FieldRegistrationHandler.processSimple(BlazingAgendaSounds.class, false);
 
