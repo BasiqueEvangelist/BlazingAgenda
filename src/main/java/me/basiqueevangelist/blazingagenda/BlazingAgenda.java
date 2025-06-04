@@ -1,7 +1,6 @@
 package me.basiqueevangelist.blazingagenda;
 
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
-import me.basiqueevangelist.blazingagenda.block.BlazingAgendaBlocks;
 import me.basiqueevangelist.blazingagenda.command.ReloadCommand;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaComponents;
 import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
@@ -24,7 +23,6 @@ public class BlazingAgenda implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		BlazingAgendaNetworking.init();
-		FieldRegistrationHandler.register(BlazingAgendaBlocks.class, MOD_ID, false);
 		FieldRegistrationHandler.register(BlazingAgendaScreenHandlers.class, MOD_ID, false);
 		FieldRegistrationHandler.register(BlazingAgendaComponents.class, MOD_ID, false);
 		FieldRegistrationHandler.register(BlazingAgendaItems.class, MOD_ID, false);

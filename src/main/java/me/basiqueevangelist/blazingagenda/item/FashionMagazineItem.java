@@ -1,12 +1,10 @@
 package me.basiqueevangelist.blazingagenda.item;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import me.basiqueevangelist.blazingagenda.BlazingAgendaSounds;
 import me.basiqueevangelist.blazingagenda.cca.BlazingAgendaCCA;
 import me.basiqueevangelist.blazingagenda.cca.CostumeComponent;
 import me.basiqueevangelist.blazingagenda.client.ClientCostumeStore;
-import me.basiqueevangelist.blazingagenda.haircut.HaircutLimits;
-import me.basiqueevangelist.blazingagenda.screen.BarberStationScreenHandler;
+import me.basiqueevangelist.blazingagenda.BlazingAgendaPermissions;
 import me.basiqueevangelist.blazingagenda.screen.FashionMagazineScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -18,8 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -31,6 +29,7 @@ import net.minecraft.util.Util;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
@@ -80,7 +79,7 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
 
     @Override
     public ActionResult useOn(ItemStack stack, PlayerEntity user, Entity entity, Hand hand) {
-        if (user instanceof ServerPlayerEntity spe && !HaircutLimits.canApply(spe)) return ActionResult.PASS;
+        if (user instanceof ServerPlayerEntity spe && !BlazingAgendaPermissions.canApply(spe)) return ActionResult.PASS;
 
         if (entity instanceof EnderDragonPart part) entity = part.owner;
 
@@ -90,7 +89,7 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
         if (component.costumeId().equals(haircutId))
             return ActionResult.FAIL;
 
-        user.getWorld().playSoundFromEntity(user, entity, BlazingAgendaSounds.SCISSORS_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        user.getWorld().playSoundFromEntity(user, entity, BlazingAgendaSounds.FASHION_MAGAZINE_APPLY, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
         if (user.getWorld().isClient) return ActionResult.SUCCESS;
 
@@ -103,18 +102,18 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            var entry = ClientCostumeStore.get(stack.get(BlazingAgendaComponents.COSTUME_ID));
+            var entry = ClientCostumeStore.get(stack.getOrDefault(BlazingAgendaComponents.COSTUME_ID, Util.NIL_UUID));
             if (entry != null) {
                 String owner = entry.ownerName() != null ? entry.ownerName() : entry.ownerId().toString();
 
                 tooltip.add(Text.translatable("text.blazing-agenda.costumeName", entry.name(), owner));
             } else {
-                tooltip.add(Text.translatable("item.blazing-agenda.magazine.notLoaded"));
+                tooltip.add(Text.translatable("item.blazing-agenda.fashion_magazine.notLoaded"));
             }
         }
 
         if (type.isAdvanced()) {
-            tooltip.add(Text.translatable("item.blazing-agenda.magazine.costumeId", stack.get(BlazingAgendaComponents.COSTUME_ID)));
+            tooltip.add(Text.translatable("item.blazing-agenda.fashion_magazine.costumeId", stack.get(BlazingAgendaComponents.COSTUME_ID)));
         }
     }
 
@@ -130,4 +129,18 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
 
         return Text.translatable("item.blazing-agenda.fashion_magazine.withName", entry.name());
     }
+
+    @Override
+    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) return Optional.empty();
+        if (!stack.contains(BlazingAgendaComponents.COSTUME_ID)) return Optional.empty();
+
+        var entry = ClientCostumeStore.get(stack.get(BlazingAgendaComponents.COSTUME_ID));
+
+        if (entry == null) return Optional.empty();
+
+        return Optional.of(new Data(entry));
+    }
+
+    public record Data(ClientCostumeStore.Entry entry) implements TooltipData { }
 }

@@ -8,7 +8,7 @@ import net.minecraft.sound.SoundEvent;
 import java.lang.reflect.Field;
 
 public class BlazingAgendaSounds implements SimpleFieldProcessingSubject<SoundEvent> {
-    public static final SoundEvent SCISSORS_USE = SoundEvent.of(BlazingAgenda.id("item.scissors.use"));
+    public static final SoundEvent FASHION_MAGAZINE_APPLY = SoundEvent.of(BlazingAgenda.id("item.fashion_magazine.apply"));
 
     @Override
     public Class<SoundEvent> getTargetFieldType() {

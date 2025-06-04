@@ -23,13 +23,23 @@
             "color": "dark_gray"
         }
     ],
-    "item.blazing-agenda.fashion_magazine.haircutId": [
+    "item.blazing-agenda.fashion_magazine.costumeId": [
         {
             "text": "ID: ",
             "color": "dark_gray"
         },
         { "index": 0 }
     ],
+
+    "item.blazing-agenda.fashion_scrapbook": "Fashion Scrapbook",
+    "item.blazing-agenda.fashion_scrapbook.notEnoughPermissions": {
+        "text": "You need operator permissions to use this item.",
+        "color": "dark_red"
+    },
+    "item.blazing-agenda.fashion_scrapbook.requiresPermissions": {
+        "text": "Requires operator permissions",
+        "color": "red"
+    },
 
     "itemGroup.blazing-agenda.item_group": "Blazing Agenda",
     "itemGroup.blazing-agenda.item_group.button.github": "GitHub",
@@ -63,5 +73,7 @@
         {"index": 0, "color": "dark_gray"},
         {"text": " by ", "color": "black"},
         {"index": 1, "color": "dark_blue"}
-    ]
+    ],
+
+    "subtitles.blazing-agenda.item.fashion_magazine.apply": "Costume rustles"
 }

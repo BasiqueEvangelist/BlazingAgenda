@@ -10,8 +10,8 @@ import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 
 public class BlazingAgendaScreenHandlers implements AutoRegistryContainer<ScreenHandlerType<?>> {
-    public static final ScreenHandlerType<BarberStationScreenHandler> BARBER_STATION = new ScreenHandlerType<>(BarberStationScreenHandler::new, FeatureSet.empty());
     public static final ExtendedScreenHandlerType<FashionMagazineScreenHandler, FashionMagazineScreenHandler.Data> FASHION_MAGAZINE = new ExtendedScreenHandlerType<>(FashionMagazineScreenHandler::new, CodecUtils.toPacketCodec(FashionMagazineScreenHandler.Data.ENDEC));
+    public static final ExtendedScreenHandlerType<FashionScrapbookScreenHandler, FashionScrapbookScreenHandler.Data> FASHION_SCRAPBOOK = new ExtendedScreenHandlerType<>(FashionScrapbookScreenHandler::new, CodecUtils.toPacketCodec(FashionScrapbookScreenHandler.Data.ENDEC));
 
     @Override
     public Registry<ScreenHandlerType<?>> getRegistry() {

@@ -17,4 +17,5 @@ public class BlazingAgendaItems implements ItemRegistryContainer {
         .build();
 
     public static final FashionMagazineItem FASHION_MAGAZINE = new FashionMagazineItem(new OwoItemSettings().group(GROUP).maxCount(1));
+    public static final FashionScrapbookItem FASHION_SCRAPBOOK = new FashionScrapbookItem(new OwoItemSettings().group(GROUP).maxCount(1));
 }
