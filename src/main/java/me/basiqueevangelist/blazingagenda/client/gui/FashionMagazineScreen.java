@@ -1,26 +1,17 @@
 
 package me.basiqueevangelist.blazingagenda.client.gui;
 
-import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
-import io.wispforest.owo.ui.base.BaseUIModelHandledScreen;
-import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
-import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
-import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.*;
-import io.wispforest.owo.ui.parsing.UIModel;
+import io.wispforest.owo.ui.core.Component;
+import io.wispforest.owo.ui.core.HorizontalAlignment;
+import io.wispforest.owo.ui.core.Sizing;
 import me.basiqueevangelist.blazingagenda.BlazingAgenda;
 import me.basiqueevangelist.blazingagenda.client.DownloadedTexture;
 import me.basiqueevangelist.blazingagenda.screen.FashionMagazineScreenHandler;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class FashionMagazineScreen extends BookScreen<FashionMagazineScreenHandler> {
     public FashionMagazineScreen(FashionMagazineScreenHandler handler, PlayerInventory inventory, Text title) {

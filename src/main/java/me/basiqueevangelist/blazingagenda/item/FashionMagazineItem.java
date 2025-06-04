@@ -1,10 +1,10 @@
 package me.basiqueevangelist.blazingagenda.item;
 
+import me.basiqueevangelist.blazingagenda.BlazingAgendaPermissions;
 import me.basiqueevangelist.blazingagenda.BlazingAgendaSounds;
 import me.basiqueevangelist.blazingagenda.cca.BlazingAgendaCCA;
 import me.basiqueevangelist.blazingagenda.cca.CostumeComponent;
 import me.basiqueevangelist.blazingagenda.client.ClientCostumeStore;
-import me.basiqueevangelist.blazingagenda.BlazingAgendaPermissions;
 import me.basiqueevangelist.blazingagenda.screen.FashionMagazineScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;

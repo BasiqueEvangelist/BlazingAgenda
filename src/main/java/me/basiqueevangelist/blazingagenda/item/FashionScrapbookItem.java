@@ -1,8 +1,6 @@
 package me.basiqueevangelist.blazingagenda.item;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import me.basiqueevangelist.blazingagenda.BlazingAgendaPermissions;
-import me.basiqueevangelist.blazingagenda.screen.FashionMagazineScreenHandler;
 import me.basiqueevangelist.blazingagenda.screen.FashionScrapbookScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;

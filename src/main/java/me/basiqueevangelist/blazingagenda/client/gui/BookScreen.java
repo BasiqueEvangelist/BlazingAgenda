@@ -3,14 +3,12 @@
 package me.basiqueevangelist.blazingagenda.client.gui;
 
 import io.wispforest.owo.ui.base.BaseUIModelHandledScreen;
-import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.Component;
 import io.wispforest.owo.ui.parsing.UIModel;
 import me.basiqueevangelist.blazingagenda.BlazingAgenda;
-import me.basiqueevangelist.blazingagenda.screen.FashionMagazineScreenHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;

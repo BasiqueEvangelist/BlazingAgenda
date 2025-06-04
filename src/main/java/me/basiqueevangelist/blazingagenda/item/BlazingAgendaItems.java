@@ -2,10 +2,10 @@ package me.basiqueevangelist.blazingagenda.item;
 
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import me.basiqueevangelist.blazingagenda.BlazingAgenda;
+import net.minecraft.item.Item;
 
 public class BlazingAgendaItems implements ItemRegistryContainer {
     public static final OwoItemGroup GROUP = OwoItemGroup.builder(BlazingAgenda.id("item_group"), () -> Icon.of(BlazingAgendaItems.FASHION_MAGAZINE))
@@ -16,6 +16,6 @@ public class BlazingAgendaItems implements ItemRegistryContainer {
         })
         .build();
 
-    public static final FashionMagazineItem FASHION_MAGAZINE = new FashionMagazineItem(new OwoItemSettings().group(GROUP).maxCount(1));
-    public static final FashionScrapbookItem FASHION_SCRAPBOOK = new FashionScrapbookItem(new OwoItemSettings().group(GROUP).maxCount(1));
+    public static final FashionMagazineItem FASHION_MAGAZINE = new FashionMagazineItem(new Item.Settings().group(GROUP).maxCount(1));
+    public static final FashionScrapbookItem FASHION_SCRAPBOOK = new FashionScrapbookItem(new Item.Settings().group(GROUP).maxCount(1));
 }

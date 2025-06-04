@@ -5,8 +5,6 @@ import io.wispforest.owo.serialization.CodecUtils;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 
 public class BlazingAgendaScreenHandlers implements AutoRegistryContainer<ScreenHandlerType<?>> {
