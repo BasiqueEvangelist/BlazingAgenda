@@ -102,11 +102,32 @@ public class FashionScrapbookScreen extends BookScreen<FashionScrapbookScreenHan
 
             costumeFlow.child(Components.spacer());
 
+            FlowLayout buttonRow = Containers.horizontalFlow(Sizing.fill(), Sizing.content());
+
+            buttonRow.horizontalAlignment(HorizontalAlignment.CENTER);
+            costumeFlow.child(buttonRow);
+
             if (costume.canDelete()) {
-                costumeFlow.child(Components.button(Text.literal("Delete"), unused -> {
+                buttonRow.child(Components.button(Text.literal("Delete"), unused -> {
                     handler.sendMessage(new FashionScrapbookScreenHandler.DeleteCostume(costume.id()));
                 }));
             }
+
+            buttonRow.child(Components.button(Text.literal("Update"), unused -> {
+                DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
+                    .thenAcceptAsync(imgPath -> {
+                        if (imgPath != null) {
+                            byte[] data;
+                            try {
+                                data = Files.readAllBytes(Path.of(imgPath));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(costume.id(), data));
+                        }
+                    }, MinecraftClient.getInstance());
+            }));
 
             return costumeFlow;
         }

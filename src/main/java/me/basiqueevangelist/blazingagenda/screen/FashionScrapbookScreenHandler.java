@@ -53,6 +53,7 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
         });
 
         addServerboundMessage(UploadCostume.class, this::onUploadCostume);
+        addServerboundMessage(UpdateCostume.class, this::onUpdateCostume);
         addClientboundMessage(UploadSucceeded.class, packet -> {
             if (uploadSucceeded != null) uploadSucceeded.accept(packet);
         });
@@ -83,9 +84,28 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
 
         BlazingAgendaState state = BlazingAgendaState.get(player.server);
 
-        var haircut = state.add(player.getUuid(), packet.name(), packet.pngData());
+        var haircut = state.addCostume(player.getUuid(), packet.name(), packet.pngData());
 
         sendMessage(new UploadSucceeded(haircut.name(), haircut.id()));
+        sendMessage(Data.gather(player));
+    }
+
+    private void onUpdateCostume(UpdateCostume packet) {
+        ServerPlayerEntity player = (ServerPlayerEntity) player();
+
+        if (!BlazingAgendaPermissions.canManageAssets(player)) {
+            sendMessage(new UploadRejected(packet.id().toString(), Text.translatable("message.blazing-agenda.permissionDenied")));
+            return;
+        }
+
+        BlazingAgendaState state = BlazingAgendaState.get(player.server);
+
+        var costume = state.costumes().get(packet.id());
+
+        if (costume == null) return;
+
+        state.updateCostume(costume, packet.pngData());
+
         sendMessage(Data.gather(player));
     }
 
@@ -102,6 +122,7 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
     public record DeleteCostume(UUID id) { }
 
     public record UploadCostume(String name, byte[] pngData) { }
+    public record UpdateCostume(UUID id, byte[] pngData) { }
     public record UploadSucceeded(String name, UUID id) { }
     public record UploadRejected(String name, Text errorMessage) { }
 

@@ -44,5 +44,6 @@ public class BlazingAgendaNetworking {
 
         CHANNEL.registerClientboundDeferred(HaircutS2CPacket.class);
         CHANNEL.registerClientboundDeferred(ReloadAllS2CPacket.class);
+        CHANNEL.registerClientboundDeferred(ReloadS2CPacket.class);
     }
 }

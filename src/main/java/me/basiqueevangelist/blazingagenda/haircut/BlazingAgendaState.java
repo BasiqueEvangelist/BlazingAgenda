@@ -1,5 +1,7 @@
 package me.basiqueevangelist.blazingagenda.haircut;
 
+import me.basiqueevangelist.blazingagenda.network.BlazingAgendaNetworking;
+import me.basiqueevangelist.blazingagenda.network.ReloadS2CPacket;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -18,8 +20,10 @@ import java.util.UUID;
 public class BlazingAgendaState extends PersistentState {
     private final Map<UUID, CostumeEntry> costumes = new HashMap<>();
     private final Path costumesFolder;
+    private final MinecraftServer server;
 
     private BlazingAgendaState(MinecraftServer server) {
+        this.server = server;
         Path blazingFolder = server.getSavePath(WorldSavePath.ROOT).resolve("data").resolve("blazing-agenda");
 
         this.costumesFolder = blazingFolder.resolve("costumes").normalize();
@@ -56,7 +60,7 @@ public class BlazingAgendaState extends PersistentState {
         );
     }
 
-    public CostumeEntry add(UUID playerId, String name, byte[] data) {
+    public CostumeEntry addCostume(UUID playerId, String name, byte[] data) {
         UUID costumeId = UUID.randomUUID();
 
         while (costumes.containsKey(costumeId)) costumeId = UUID.randomUUID();
@@ -72,6 +76,18 @@ public class BlazingAgendaState extends PersistentState {
         var entry = new CostumeEntry(costumeId, playerId, name, data.length, costumesFolder.relativize(imgPath).toString());
         costumes.put(costumeId, entry);
         return entry;
+    }
+
+    public void updateCostume(CostumeEntry costume, byte[] data) {
+        var imgPath = resolve(costume);
+
+        try {
+            Files.write(imgPath, data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BlazingAgendaNetworking.CHANNEL.serverHandle(server).send(new ReloadS2CPacket(costume.id));
     }
 
     public Path resolve(CostumeEntry costume) {

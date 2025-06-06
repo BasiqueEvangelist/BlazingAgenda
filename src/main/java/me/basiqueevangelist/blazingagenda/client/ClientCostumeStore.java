@@ -61,6 +61,10 @@ public final class ClientCostumeStore {
         CACHE.invalidateAll();
     }
 
+    public static void drop(UUID id) {
+        CACHE.invalidate(id);
+    }
+
     public static class Entry {
         private boolean filledIn = false;
         private UUID id;
