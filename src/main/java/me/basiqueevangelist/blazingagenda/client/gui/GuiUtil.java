@@ -1,7 +1,9 @@
 package me.basiqueevangelist.blazingagenda.client.gui;
 
 import io.wispforest.owo.ui.component.LabelComponent;
-import io.wispforest.owo.ui.core.CursorStyle;
+import io.wispforest.owo.ui.container.Containers;
+import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.UISounds;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
@@ -28,5 +30,25 @@ public class GuiUtil {
 
             return true;
         });
+    }
+
+    public static FlowLayout buildBookUi(FlowLayout root) {
+        FlowLayout outer = Containers.verticalFlow(Sizing.fill(60), Sizing.fill(80));
+
+        root
+            .child(outer)
+            .verticalAlignment(VerticalAlignment.CENTER)
+            .horizontalAlignment(HorizontalAlignment.CENTER);
+
+        outer
+            .surface(Surface.flat(0xFFCCCCCC).and(Surface.outline(0xFF5800FF)))
+            .horizontalAlignment(HorizontalAlignment.CENTER)
+            .padding(Insets.of(5));
+
+        FlowLayout main = Containers.verticalFlow(Sizing.fill(), Sizing.content());
+
+        outer.child(Containers.verticalScroll(Sizing.fill(), Sizing.fill(), main));
+
+        return main;
     }
 }

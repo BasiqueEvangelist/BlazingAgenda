@@ -113,7 +113,7 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
         }
 
         if (type.isAdvanced()) {
-            tooltip.add(Text.translatable("item.blazing-agenda.fashion_magazine.costumeId", stack.get(BlazingAgendaComponents.COSTUME_ID)));
+            tooltip.add(Text.translatable("item.blazing-agenda.fashion_magazine.costumeId", stack.getOrDefault(BlazingAgendaComponents.COSTUME_ID, Util.NIL_UUID)));
         }
     }
 

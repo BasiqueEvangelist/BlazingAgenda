@@ -1,14 +1,12 @@
 package me.basiqueevangelist.blazingagenda.client.gui;
 
+import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.core.Component;
-import io.wispforest.owo.ui.core.HorizontalAlignment;
-import io.wispforest.owo.ui.core.Sizing;
-import io.wispforest.owo.ui.core.VerticalAlignment;
+import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.UISounds;
 import me.basiqueevangelist.blazingagenda.BlazingAgenda;
 import me.basiqueevangelist.blazingagenda.client.DownloadedTexture;
@@ -19,6 +17,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -26,7 +25,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class FashionScrapbookScreen extends BookScreen<FashionScrapbookScreenHandler> {
+public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, FashionScrapbookScreenHandler> {
+    private FlowLayout main;
     private FlowLayout addFlow;
 
     public FashionScrapbookScreen(FashionScrapbookScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -39,29 +39,76 @@ public class FashionScrapbookScreen extends BookScreen<FashionScrapbookScreenHan
     }
 
     @Override
-    protected int pageCount() {
-        return handler.data.costumes().size() + 1;
+    protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
+        return OwoUIAdapter.create(this, Containers::verticalFlow);
     }
 
     @Override
-    protected void rebuildContent() {
-        this.addFlow = null;
+    protected void build(FlowLayout rootComponent) {
+        this.main = GuiUtil.buildBookUi(rootComponent);
 
-        super.rebuildContent();
+        rebuildContent();
     }
 
-    @Override
-    protected Component getPageContent(int index) {
-        if (index == pageCount() - 1) {
-            this.addFlow = Containers.verticalFlow(Sizing.fill(), Sizing.fill());
+    private void rebuildContent() {
+        this.main.configure(unused1 -> {
+            main.clearChildren();
+
+            for (var costume : handler.data.costumes()) {
+                var costumeFlow = Containers.verticalFlow(Sizing.fill(), Sizing.content());
+
+                costumeFlow.child(Components.label(Text.translatable("text.blazing-agenda.costumeNameDark", costume.name(), costume.ownerName()))
+                    .horizontalTextAlignment(HorizontalAlignment.CENTER));
+
+                var tx = new DownloadedTexture(costume.data());
+
+                var imgComponent = tx.toComponent();
+
+                costumeFlow.child(imgComponent
+                    .preserveAspectRatio(true)
+                    .verticalSizing(Sizing.fixed(150)));
+
+                FlowLayout buttonRow = Containers.horizontalFlow(Sizing.content(), Sizing.content());
+
+                buttonRow
+                    .gap(5)
+                    .horizontalAlignment(HorizontalAlignment.CENTER);
+                costumeFlow.child(buttonRow);
+
+                if (costume.canDelete()) {
+                    buttonRow.child(Components.button(Text.literal("Delete"), unused -> {
+                        handler.sendMessage(new FashionScrapbookScreenHandler.DeleteCostume(costume.id()));
+                    }));
+                }
+
+                buttonRow.child(Components.button(Text.literal("Update"), unused -> {
+                    DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
+                        .thenAcceptAsync(imgPath -> {
+                            if (imgPath != null) {
+                                byte[] data;
+                                try {
+                                    data = Files.readAllBytes(Path.of(imgPath));
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(costume.id(), data));
+                            }
+                        }, MinecraftClient.getInstance());
+                }));
+
+                main.child(costumeFlow);
+            }
+
+            this.addFlow = Containers.verticalFlow(Sizing.fill(), Sizing.fixed(100));
 
             var textContainer = Containers.verticalFlow(Sizing.fill(), Sizing.fill());
 
             textContainer.child(Components.label(Text.translatable("text.blazing-agenda.drag_or_click_to_add")
-                .formatted(Formatting.BLACK))
-                .horizontalTextAlignment(HorizontalAlignment.CENTER)
-                .verticalTextAlignment(VerticalAlignment.CENTER)
-                .horizontalSizing(Sizing.fill()))
+                        .formatted(Formatting.BLACK))
+                    .horizontalTextAlignment(HorizontalAlignment.CENTER)
+                    .verticalTextAlignment(VerticalAlignment.CENTER)
+                    .horizontalSizing(Sizing.fill()))
                 .verticalAlignment(VerticalAlignment.CENTER)
                 .horizontalAlignment(HorizontalAlignment.CENTER);
 
@@ -82,55 +129,8 @@ public class FashionScrapbookScreen extends BookScreen<FashionScrapbookScreenHan
 
             this.addFlow.child(textContainer);
 
-            return this.addFlow;
-        } else {
-            var costume = handler.data.costumes().get(index);
-
-            var costumeFlow = Containers.verticalFlow(Sizing.fill(), Sizing.fill());
-
-            costumeFlow.child(Components.label(Text.translatable("text.blazing-agenda.costumeNameDark", costume.name(), costume.ownerName()))
-                .horizontalTextAlignment(HorizontalAlignment.CENTER)
-                .horizontalSizing(Sizing.fill()));
-
-            var tx = new DownloadedTexture(costume.data());
-
-            var imgComponent = tx.toComponent();
-
-            costumeFlow.child(imgComponent
-                .preserveAspectRatio(true)
-                .verticalSizing(Sizing.fill()));
-
-            costumeFlow.child(Components.spacer());
-
-            FlowLayout buttonRow = Containers.horizontalFlow(Sizing.fill(), Sizing.content());
-
-            buttonRow.horizontalAlignment(HorizontalAlignment.CENTER);
-            costumeFlow.child(buttonRow);
-
-            if (costume.canDelete()) {
-                buttonRow.child(Components.button(Text.literal("Delete"), unused -> {
-                    handler.sendMessage(new FashionScrapbookScreenHandler.DeleteCostume(costume.id()));
-                }));
-            }
-
-            buttonRow.child(Components.button(Text.literal("Update"), unused -> {
-                DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
-                    .thenAcceptAsync(imgPath -> {
-                        if (imgPath != null) {
-                            byte[] data;
-                            try {
-                                data = Files.readAllBytes(Path.of(imgPath));
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(costume.id(), data));
-                        }
-                    }, MinecraftClient.getInstance());
-            }));
-
-            return costumeFlow;
-        }
+            main.child(this.addFlow);
+        });
     }
 
     @Override
@@ -169,12 +169,6 @@ public class FashionScrapbookScreen extends BookScreen<FashionScrapbookScreenHan
         });
 
         addFlow.child(button);
-    }
-
-    @Override
-    protected Identifier bookTexture() {
-        // TODO: use different texture
-        return BlazingAgenda.id("textures/gui/fashion_magazine.png");
     }
 
     public void uploadSucceeded(FashionScrapbookScreenHandler.UploadSucceeded packet) {
