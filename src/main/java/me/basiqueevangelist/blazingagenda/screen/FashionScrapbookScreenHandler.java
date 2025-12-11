@@ -77,6 +77,7 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
 
     private void onUploadCostume(UploadCostume packet) {
         ServerPlayerEntity player = (ServerPlayerEntity) player();
+        BlazingAgendaState state = BlazingAgendaState.get(player.server);
 
         if (!BlazingAgendaPermissions.canManageAssets(player)) {
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.blazing-agenda.permissionDenied")));
@@ -88,7 +89,12 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
             return;
         }
 
-        BlazingAgendaState state = BlazingAgendaState.get(player.server);
+        if (state.totalPatternSize(player.getUuid()) + packet.pngData().length > BlazingAgendaPermissions.maxTotalStorage(player)
+            || state.totalCostumesCount(player.getUuid()) + 1 > BlazingAgendaPermissions.maxCostumeSlots(player)) {
+            // Not enough space.
+            sendMessage(new UploadRejected(packet.name(), Text.translatable("message.blazing-agenda.notEnoughSpace")));
+            return;
+        }
 
         var haircut = state.addCostume(player.getUuid(), packet.name(), packet.pngData());
 
@@ -98,17 +104,22 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
 
     private void onUpdateCostume(UpdateCostume packet) {
         ServerPlayerEntity player = (ServerPlayerEntity) player();
+        BlazingAgendaState state = BlazingAgendaState.get(player.server);
 
         if (!BlazingAgendaPermissions.canManageAssets(player)) {
             sendMessage(new UploadRejected(packet.id().toString(), Text.translatable("message.blazing-agenda.permissionDenied")));
             return;
         }
 
-        BlazingAgendaState state = BlazingAgendaState.get(player.server);
-
         var costume = state.costumes().get(packet.id());
 
         if (costume == null) return;
+
+        if (state.totalPatternSize(player.getUuid()) + packet.pngData().length - costume.sizeInBytes() > BlazingAgendaPermissions.maxTotalStorage(player)) {
+            // Not enough space.
+            sendMessage(new UploadRejected(costume.name(), Text.translatable("message.blazing-agenda.notEnoughSpace")));
+            return;
+        }
 
         state.updateCostume(costume, packet.pngData());
 

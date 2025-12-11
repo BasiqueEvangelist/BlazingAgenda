@@ -61,6 +61,30 @@ public class BlazingAgendaState extends PersistentState {
         );
     }
 
+    public int totalPatternSize(UUID playerId) {
+        int totalSize = 0;
+
+        for (var value : costumes.values()) {
+            if (!value.ownerId.equals(playerId)) continue;
+
+            totalSize += value.sizeInBytes();
+        }
+
+        return totalSize;
+    }
+
+    public int totalCostumesCount(UUID playerId) {
+        int total = 0;
+
+        for (var value : costumes.values()) {
+            if (!value.ownerId.equals(playerId)) continue;
+
+            total += 1;
+        }
+
+        return total;
+    }
+
     public CostumeEntry addCostume(UUID playerId, String name, byte[] data) {
         UUID costumeId = UUID.randomUUID();
 

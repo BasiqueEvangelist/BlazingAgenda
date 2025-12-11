@@ -49,6 +49,7 @@
 
     "message.blazing-agenda.permissionDenied": "Permission denied",
     "message.blazing-agenda.invalidPng": "Invalid PNG",
+    "message.blazing-agenda.notEnoughSpace": "Not enough pattern space",
     "message.blazing-agenda.loading": "Loading...",
 
     "command.blazing-agenda.reload_successful": "Reloaded Blazing Agenda storages",
