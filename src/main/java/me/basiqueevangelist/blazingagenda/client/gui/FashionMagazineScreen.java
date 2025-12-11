@@ -14,6 +14,7 @@ import me.basiqueevangelist.blazingagenda.client.DownloadedTexture;
 import me.basiqueevangelist.blazingagenda.screen.FashionMagazineScreenHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,6 +53,11 @@ public class FashionMagazineScreen extends BaseOwoHandledScreen<FlowLayout, Fash
             }));
 
             main.child(costumeFlow);
+        }
+
+        if (handler.data.costumes().isEmpty()) {
+            main.child(Components.label(Text.translatable("text.blazing-agenda.no_costumes").formatted(Formatting.BLACK))
+                .horizontalTextAlignment(HorizontalAlignment.CENTER));
         }
     }
 }

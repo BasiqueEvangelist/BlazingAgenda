@@ -2,6 +2,7 @@
     "block.blazing-agenda.barber_station": "Barber Station",
     "text.blazing-agenda.barber_station_screen": "Barber Station",
     "text.blazing-agenda.drag_or_click_to_add": "Drag and drop or click to add haircut\nDrag and drop on a costume to update",
+    "text.blazing-agenda.no_costumes": "No costumes yet :(\nUse the Fashion Scrapbook to add some, or ask an admin.",
 
     "item.blazing-agenda.fashion_magazine": "Fashion Magazine",
     "item.blazing-agenda.fashion_magazine.notLoaded": {

@@ -160,12 +160,13 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
         }
 
         addFlow.clearChildren();
+        addFlow.verticalSizing(Sizing.content());
 
         DownloadedTexture tx = new DownloadedTexture(data);
 
         addFlow.child(tx.toComponent()
             .preserveAspectRatio(true)
-            .verticalSizing(Sizing.fill(75)));
+            .verticalSizing(Sizing.fixed(150)));
 
         TextBoxComponent nameBox;
         addFlow.child(Containers.horizontalFlow(Sizing.content(), Sizing.content())
