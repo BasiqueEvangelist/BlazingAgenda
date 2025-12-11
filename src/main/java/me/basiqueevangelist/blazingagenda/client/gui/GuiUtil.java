@@ -33,7 +33,7 @@ public class GuiUtil {
     }
 
     public static FlowLayout buildBookUi(FlowLayout root) {
-        FlowLayout outer = Containers.verticalFlow(Sizing.fill(60), Sizing.fill(80));
+        FlowLayout outer = Containers.verticalFlow(Sizing.fill(40), Sizing.fill(80));
 
         root
             .child(outer)
@@ -46,6 +46,9 @@ public class GuiUtil {
             .padding(Insets.of(5));
 
         FlowLayout main = Containers.verticalFlow(Sizing.fill(), Sizing.content());
+        main
+            .gap(5)
+            .horizontalAlignment(HorizontalAlignment.CENTER);
 
         outer.child(Containers.verticalScroll(Sizing.fill(), Sizing.fill(), main));
 

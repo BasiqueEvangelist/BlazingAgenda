@@ -54,6 +54,37 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
         this.main.configure(unused1 -> {
             main.clearChildren();
 
+            this.addFlow = Containers.verticalFlow(Sizing.fill(), Sizing.fixed(50));
+
+            var textContainer = Containers.verticalFlow(Sizing.fill(), Sizing.fill());
+
+            textContainer.child(Components.label(Text.translatable("text.blazing-agenda.drag_or_click_to_add")
+                        .formatted(Formatting.BLACK))
+                    .horizontalTextAlignment(HorizontalAlignment.CENTER)
+                    .verticalTextAlignment(VerticalAlignment.CENTER)
+                    .horizontalSizing(Sizing.fill()))
+                .verticalAlignment(VerticalAlignment.CENTER)
+                .horizontalAlignment(HorizontalAlignment.CENTER);
+
+            textContainer.mouseDown().subscribe((mouseX, mouseY, button) -> {
+                if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+
+                UISounds.playButtonSound();
+
+                DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
+                    .thenAcceptAsync(imgPath -> {
+                        if (imgPath != null) {
+                            filesDragged(List.of(Path.of(imgPath)));
+                        }
+                    }, MinecraftClient.getInstance());
+
+                return true;
+            });
+
+            this.addFlow.child(textContainer);
+
+            main.child(this.addFlow);
+
             for (var costume : handler.data.costumes()) {
                 var costumeFlow = Containers.verticalFlow(Sizing.fill(), Sizing.content());
 
@@ -99,37 +130,6 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
 
                 main.child(costumeFlow);
             }
-
-            this.addFlow = Containers.verticalFlow(Sizing.fill(), Sizing.fixed(100));
-
-            var textContainer = Containers.verticalFlow(Sizing.fill(), Sizing.fill());
-
-            textContainer.child(Components.label(Text.translatable("text.blazing-agenda.drag_or_click_to_add")
-                        .formatted(Formatting.BLACK))
-                    .horizontalTextAlignment(HorizontalAlignment.CENTER)
-                    .verticalTextAlignment(VerticalAlignment.CENTER)
-                    .horizontalSizing(Sizing.fill()))
-                .verticalAlignment(VerticalAlignment.CENTER)
-                .horizontalAlignment(HorizontalAlignment.CENTER);
-
-            textContainer.mouseDown().subscribe((mouseX, mouseY, button) -> {
-                if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
-
-                UISounds.playButtonSound();
-
-                DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
-                    .thenAcceptAsync(imgPath -> {
-                        if (imgPath != null) {
-                            filesDragged(List.of(Path.of(imgPath)));
-                        }
-                    }, MinecraftClient.getInstance());
-
-                return true;
-            });
-
-            this.addFlow.child(textContainer);
-
-            main.child(this.addFlow);
         });
     }
 
