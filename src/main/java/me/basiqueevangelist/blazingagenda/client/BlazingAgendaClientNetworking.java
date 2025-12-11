@@ -4,12 +4,8 @@ import me.basiqueevangelist.blazingagenda.network.BlazingAgendaNetworking;
 import me.basiqueevangelist.blazingagenda.network.HaircutS2CPacket;
 import me.basiqueevangelist.blazingagenda.network.ReloadAllS2CPacket;
 import me.basiqueevangelist.blazingagenda.network.ReloadS2CPacket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class BlazingAgendaClientNetworking {
-    private static final Logger LOGGER = LoggerFactory.getLogger("BlazingAgenda/ClientNetworking");
-
     private BlazingAgendaClientNetworking() {
 
     }

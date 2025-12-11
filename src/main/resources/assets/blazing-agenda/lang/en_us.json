@@ -1,7 +1,7 @@
 {
     "block.blazing-agenda.barber_station": "Barber Station",
     "text.blazing-agenda.barber_station_screen": "Barber Station",
-    "text.blazing-agenda.drag_or_click_to_add": "Drag and drop or click to add haircut",
+    "text.blazing-agenda.drag_or_click_to_add": "Drag and drop or click to add haircut\nDrag and drop on a costume to update",
 
     "item.blazing-agenda.fashion_magazine": "Fashion Magazine",
     "item.blazing-agenda.fashion_magazine.notLoaded": {
@@ -47,6 +47,7 @@
     "itemGroup.blazing-agenda.item_group.button.discord": "Discord",
 
     "message.blazing-agenda.permissionDenied": "Permission denied",
+    "message.blazing-agenda.invalidPng": "Invalid PNG",
     "message.blazing-agenda.loading": "Loading...",
 
     "command.blazing-agenda.reload_successful": "Reloaded Blazing Agenda storages",

@@ -8,7 +8,7 @@ import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.UISounds;
-import me.basiqueevangelist.blazingagenda.BlazingAgenda;
+import me.basiqueevangelist.blazingagenda.BlazingAgendaUtil;
 import me.basiqueevangelist.blazingagenda.client.DownloadedTexture;
 import me.basiqueevangelist.blazingagenda.client.NotificationToast;
 import me.basiqueevangelist.blazingagenda.screen.FashionScrapbookScreenHandler;
@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -28,6 +27,8 @@ import java.util.List;
 public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, FashionScrapbookScreenHandler> {
     private FlowLayout main;
     private FlowLayout addFlow;
+
+    private FashionScrapbookScreenHandler.CostumeEntry mouseOverCostume = null;
 
     public FashionScrapbookScreen(FashionScrapbookScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -88,6 +89,13 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
             for (var costume : handler.data.costumes()) {
                 var costumeFlow = Containers.verticalFlow(Sizing.fill(), Sizing.content());
 
+                costumeFlow.mouseEnter().subscribe(() -> mouseOverCostume = costume);
+
+                costumeFlow.mouseLeave().subscribe(() -> {
+                    if (mouseOverCostume == costume)
+                        mouseOverCostume = null;
+                });
+
                 costumeFlow.child(Components.label(Text.translatable("text.blazing-agenda.costumeNameDark", costume.name(), costume.ownerName()))
                     .horizontalTextAlignment(HorizontalAlignment.CENTER));
 
@@ -135,10 +143,6 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
 
     @Override
     public void filesDragged(List<Path> paths) {
-        if (!addFlow.hasParent()) return;
-
-        addFlow.clearChildren();
-
         var path = paths.get(0);
 
         byte[] data;
@@ -147,6 +151,15 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        if (!BlazingAgendaUtil.looksLikePng(data)) return;
+
+        if (mouseOverCostume != null) {
+            handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(mouseOverCostume.id(), data));
+            return;
+        }
+
+        addFlow.clearChildren();
 
         DownloadedTexture tx = new DownloadedTexture(data);
 

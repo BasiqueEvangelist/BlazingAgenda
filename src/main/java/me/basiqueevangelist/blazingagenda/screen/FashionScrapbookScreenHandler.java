@@ -6,6 +6,7 @@ import io.wispforest.endec.impl.BuiltInEndecs;
 import io.wispforest.endec.impl.StructEndecBuilder;
 import io.wispforest.owo.client.screens.SlotGenerator;
 import me.basiqueevangelist.blazingagenda.BlazingAgendaPermissions;
+import me.basiqueevangelist.blazingagenda.BlazingAgendaUtil;
 import me.basiqueevangelist.blazingagenda.haircut.BlazingAgendaState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -79,6 +80,11 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
 
         if (!BlazingAgendaPermissions.canManageAssets(player)) {
             sendMessage(new UploadRejected(packet.name(), Text.translatable("message.blazing-agenda.permissionDenied")));
+            return;
+        }
+
+        if (!BlazingAgendaUtil.looksLikePng(packet.pngData)) {
+            sendMessage(new UploadRejected(packet.name(), Text.translatable("message.blazing-agenda.invalidPng")));
             return;
         }
 

@@ -1,5 +1,6 @@
 package me.basiqueevangelist.blazingagenda.haircut;
 
+import me.basiqueevangelist.blazingagenda.BlazingAgendaUtil;
 import me.basiqueevangelist.blazingagenda.network.BlazingAgendaNetworking;
 import me.basiqueevangelist.blazingagenda.network.ReloadS2CPacket;
 import net.minecraft.nbt.NbtCompound;
@@ -79,6 +80,8 @@ public class BlazingAgendaState extends PersistentState {
     }
 
     public void updateCostume(CostumeEntry costume, byte[] data) {
+        if (!BlazingAgendaUtil.looksLikePng(data)) return;
+
         var imgPath = resolve(costume);
 
         try {
