@@ -68,7 +68,7 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
         BlazingAgendaState state = BlazingAgendaState.get(player.server);
 
         var cut = state.costumes().get(packet.id());
-        if (!cut.ownerId().equals(player.getUuid()) && !BlazingAgendaPermissions.canDelete(player)) return;
+        if (!cut.ownerId().equals(player.getUuid()) && !BlazingAgendaPermissions.canDeleteCostumeOther(player)) return;
 
         state.deleteHaircut(cut);
 
@@ -114,6 +114,9 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
         var costume = state.costumes().get(packet.id());
 
         if (costume == null) return;
+
+        if (!costume.ownerId().equals(player.getUuid()) && !BlazingAgendaPermissions.canUpdateCostumeOther(player))
+            return;
 
         if (state.totalPatternSize(player.getUuid()) + packet.pngData().length - costume.sizeInBytes() > BlazingAgendaPermissions.maxTotalStorage(player)) {
             // Not enough space.
@@ -165,7 +168,7 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
                     throw new RuntimeException("explosion", e);
                 }
 
-                boolean canDelete = costume.ownerId().equals(player.getUuid()) || BlazingAgendaPermissions.canDelete(player);
+                boolean canDelete = costume.ownerId().equals(player.getUuid()) || BlazingAgendaPermissions.canDeleteCostumeOther(player);
 
                 costumes.add(new CostumeEntry(costume.id(), costume.name(), ownerName, canDelete, data));
             }

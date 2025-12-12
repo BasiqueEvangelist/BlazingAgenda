@@ -79,7 +79,7 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
 
     @Override
     public ActionResult useOn(ItemStack stack, PlayerEntity user, Entity entity, Hand hand) {
-        if (user instanceof ServerPlayerEntity spe && !BlazingAgendaPermissions.canApply(spe)) return ActionResult.PASS;
+        if (user instanceof ServerPlayerEntity spe && !BlazingAgendaPermissions.canApplyCostume(spe)) return ActionResult.PASS;
 
         if (entity instanceof EnderDragonPart part) entity = part.owner;
 

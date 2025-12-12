@@ -14,12 +14,16 @@ public final class BlazingAgendaPermissions {
         return Permissions.check(player, "blazing-agenda.manageAssets", 3);
     }
 
-    public static boolean canApply(ServerPlayerEntity player) {
+    public static boolean canApplyCostume(ServerPlayerEntity player) {
         return Permissions.check(player, "blazing-agenda.applyCostume", true);
     }
 
-    public static boolean canDelete(ServerPlayerEntity player) {
-        return Permissions.check(player, "blazing-agenda.deleteCostume", 3);
+    public static boolean canDeleteCostumeOther(ServerPlayerEntity player) {
+        return Permissions.check(player, "blazing-agenda.deleteCostumeOther", 3);
+    }
+
+    public static boolean canUpdateCostumeOther(ServerPlayerEntity player) {
+        return Permissions.check(player, "blazing-agenda.updateCostumeOther", 3);
     }
 
     public static int maxCostumeSlots(ServerPlayerEntity player) {
