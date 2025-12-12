@@ -10,6 +10,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.WorldSavePath;
 import net.minecraft.world.PersistentState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +24,8 @@ public class BlazingAgendaState extends PersistentState {
     private final Map<UUID, CostumeEntry> costumes = new HashMap<>();
     private final Path costumesFolder;
     private final MinecraftServer server;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger("BlazingAgenda/BlazingAgendaState");
 
     private BlazingAgendaState(MinecraftServer server) {
         this.server = server;
@@ -45,6 +49,11 @@ public class BlazingAgendaState extends PersistentState {
         for (int i = 0; i < costumesTag.size(); i++) {
             NbtCompound costumeTag = costumesTag.getCompound(i);
             var entry = CostumeEntry.read(costumeTag);
+
+            if (!Files.exists(resolve(entry))) {
+                LOGGER.warn("Skipping costume {}, as its file was deleted", entry.id);
+                continue;
+            }
 
             costumes.put(entry.id(), entry);
         }
