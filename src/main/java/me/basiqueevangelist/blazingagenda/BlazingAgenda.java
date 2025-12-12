@@ -7,6 +7,7 @@ import me.basiqueevangelist.blazingagenda.item.BlazingAgendaItems;
 import me.basiqueevangelist.blazingagenda.item.EarlyUseOnEntity;
 import me.basiqueevangelist.blazingagenda.network.BlazingAgendaNetworking;
 import me.basiqueevangelist.blazingagenda.screen.BlazingAgendaScreenHandlers;
+import me.basiqueevangelist.blazingagenda.util.BlazingAgendaConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -15,6 +16,8 @@ import net.minecraft.util.Identifier;
 
 public class BlazingAgenda implements ModInitializer {
 	public static final String MOD_ID = "blazing-agenda";
+
+	public static final BlazingAgendaConfig CONFIG = BlazingAgendaConfig.createAndLoad();
 
 	public static Identifier id(String path) {
 		return Identifier.of(MOD_ID, path);

@@ -78,5 +78,15 @@
         {"index": 1, "color": "dark_blue"}
     ],
 
+    "text.config.blazing-agenda.title": "Blazing Agenda",
+    "text.config.blazing-agenda.option.everybodyCanManageAssets": "Everybody can manage assets",
+    "text.config.blazing-agenda.option.everybodyCanApplyCostumes": "Everybody can apply costumes",
+    "text.config.blazing-agenda.option.everybodyCanDeleteOtherCostumes": "Everybody can delete others' costumes",
+    "text.config.blazing-agenda.option.everybodyCanUpdateOtherCostumes": "Everybody can update others' costumes",
+    "text.config.blazing-agenda.option.maxCostumeSlots": "Maximum Costume Slots",
+    "text.config.blazing-agenda.option.maxCostumeSlots.tooltip": "The maximum amount of costumes one player can have uploaded at once.",
+    "text.config.blazing-agenda.option.maxTotalStorage": "Maximum Total Storage",
+    "text.config.blazing-agenda.option.maxTotalStorage.tooltip": "The maximum amount of storage (in bytes) a player's assets can take up.",
+
     "subtitles.blazing-agenda.item.fashion_magazine.apply": "Costume rustles"
 }

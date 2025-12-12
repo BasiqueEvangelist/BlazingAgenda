@@ -1,5 +1,6 @@
 package me.basiqueevangelist.blazingagenda.item;
 
+import me.basiqueevangelist.blazingagenda.BlazingAgenda;
 import me.basiqueevangelist.blazingagenda.BlazingAgendaPermissions;
 import me.basiqueevangelist.blazingagenda.screen.FashionScrapbookScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -59,6 +60,8 @@ public class FashionScrapbookItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.blazing-agenda.fashion_scrapbook.requiresPermissions"));
+        if (!BlazingAgenda.CONFIG.everybodyCanManageAssets()) {
+            tooltip.add(Text.translatable("item.blazing-agenda.fashion_scrapbook.requiresPermissions"));
+        }
     }
 }

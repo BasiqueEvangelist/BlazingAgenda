@@ -11,26 +11,26 @@ public final class BlazingAgendaPermissions {
     }
 
     public static boolean canManageAssets(PlayerEntity player) {
-        return Permissions.check(player, "blazing-agenda.manageAssets", 3);
+        return Permissions.check(player, "blazing-agenda.manageAssets",  BlazingAgenda.CONFIG.everybodyCanManageAssets() ? 0 : 3);
     }
 
     public static boolean canApplyCostume(ServerPlayerEntity player) {
-        return Permissions.check(player, "blazing-agenda.applyCostume", true);
+        return Permissions.check(player, "blazing-agenda.applyCostume", BlazingAgenda.CONFIG.everybodyCanApplyCostumes() ? 0 : 3);
     }
 
     public static boolean canDeleteCostumeOther(ServerPlayerEntity player) {
-        return Permissions.check(player, "blazing-agenda.deleteCostumeOther", 3);
+        return Permissions.check(player, "blazing-agenda.deleteCostumeOther", BlazingAgenda.CONFIG.everybodyCanDeleteOtherCostumes() ? 0 : 3);
     }
 
     public static boolean canUpdateCostumeOther(ServerPlayerEntity player) {
-        return Permissions.check(player, "blazing-agenda.updateCostumeOther", 3);
+        return Permissions.check(player, "blazing-agenda.updateCostumeOther", BlazingAgenda.CONFIG.everybodyCanUpdateOtherCostumes() ? 0 : 3);
     }
 
     public static int maxCostumeSlots(ServerPlayerEntity player) {
-        return Options.get(player, "blazing-agenda.maxCostumeSlots", 100, Integer::parseInt);
+        return Options.get(player, "blazing-agenda.maxCostumeSlots", BlazingAgenda.CONFIG.maxCostumeSlots(), Integer::parseInt);
     }
 
     public static int maxTotalStorage(ServerPlayerEntity player) {
-        return Options.get(player, "blazing-agenda.maxTotalStorage", 128 * 1024 * 1024, Integer::parseInt);
+        return Options.get(player, "blazing-agenda.maxTotalStorage", BlazingAgenda.CONFIG.maxTotalStorage(), Integer::parseInt);
     }
 }

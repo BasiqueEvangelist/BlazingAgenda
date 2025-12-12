@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "P": {
+            "item": "minecraft:purple_dye"
+        },
+        "Y": {
+            "item": "minecraft:yellow_dye"
+        },
+        "O": {
+            "item": "minecraft:orange_dye"
+        },
+        "R": {
+            "item": "minecraft:red_dye"
+        },
+        "B": {
+            "item": "minecraft:book"
+        }
+    },
+    "pattern": [
+        "PYO",
+        "RBR",
+        "OYP"
+    ],
+    "result": {
+        "id": "blazing-agenda:fashion_magazine",
+        "count": 1
+    }
+}
