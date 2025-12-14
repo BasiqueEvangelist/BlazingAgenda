@@ -120,21 +120,23 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
                     }));
                 }
 
-                buttonRow.child(Components.button(Text.literal("Update"), unused -> {
-                    DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
-                        .thenAcceptAsync(imgPath -> {
-                            if (imgPath != null) {
-                                byte[] data;
-                                try {
-                                    data = Files.readAllBytes(Path.of(imgPath));
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
+                if (costume.canUpdate()) {
+                    buttonRow.child(Components.button(Text.literal("Update"), unused -> {
+                        DialogUtil.openFileDialogAsync("Open costume image", null, List.of("*.png", "*.jpg", "*.jpeg"), "Image files", false)
+                            .thenAcceptAsync(imgPath -> {
+                                if (imgPath != null) {
+                                    byte[] data;
+                                    try {
+                                        data = Files.readAllBytes(Path.of(imgPath));
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
 
-                                handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(costume.id(), data));
-                            }
-                        }, MinecraftClient.getInstance());
-                }));
+                                    handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(costume.id(), data));
+                                }
+                            }, MinecraftClient.getInstance());
+                    }));
+                }
 
                 main.child(costumeFlow);
             }
@@ -155,7 +157,9 @@ public class FashionScrapbookScreen extends BaseOwoHandledScreen<FlowLayout, Fas
         if (!BlazingAgendaUtil.looksLikePng(data)) return;
 
         if (mouseOverCostume != null) {
-            handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(mouseOverCostume.id(), data));
+            if (mouseOverCostume.canUpdate())
+                handler.sendMessage(new FashionScrapbookScreenHandler.UpdateCostume(mouseOverCostume.id(), data));
+
             return;
         }
 

@@ -169,20 +169,22 @@ public class FashionScrapbookScreenHandler extends ScreenHandler {
                 }
 
                 boolean canDelete = costume.ownerId().equals(player.getUuid()) || BlazingAgendaPermissions.canDeleteCostumeOther(player);
+                boolean canUpdate = costume.ownerId().equals(player.getUuid()) || BlazingAgendaPermissions.canUpdateCostumeOther(player);
 
-                costumes.add(new CostumeEntry(costume.id(), costume.name(), ownerName, canDelete, data));
+                costumes.add(new CostumeEntry(costume.id(), costume.name(), ownerName, canDelete, canUpdate, data));
             }
 
             return new Data(costumes);
         }
     }
 
-    public record CostumeEntry(UUID id, String name, String ownerName, boolean canDelete, byte[] data) {
+    public record CostumeEntry(UUID id, String name, String ownerName, boolean canDelete, boolean canUpdate, byte[] data) {
         public static final Endec<CostumeEntry> ENDEC = StructEndecBuilder.of(
             BuiltInEndecs.UUID.fieldOf("id", CostumeEntry::id),
             Endec.STRING.fieldOf("name", CostumeEntry::name),
             Endec.STRING.fieldOf("ownerName", CostumeEntry::ownerName),
             Endec.BOOLEAN.fieldOf("canDelete", CostumeEntry::canDelete),
+            Endec.BOOLEAN.fieldOf("canUpdate", CostumeEntry::canUpdate),
             Endec.BYTES.fieldOf("data", CostumeEntry::data),
             CostumeEntry::new
         );
