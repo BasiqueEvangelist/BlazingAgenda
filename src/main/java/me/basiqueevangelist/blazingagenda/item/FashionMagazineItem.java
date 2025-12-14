@@ -101,6 +101,8 @@ public class FashionMagazineItem extends Item implements EarlyUseOnEntity {
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+        if (!stack.contains(BlazingAgendaComponents.COSTUME_ID)) return;
+
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             var entry = ClientCostumeStore.get(stack.getOrDefault(BlazingAgendaComponents.COSTUME_ID, Util.NIL_UUID));
             if (entry != null) {
