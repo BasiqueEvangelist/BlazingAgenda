@@ -12,7 +12,7 @@ public class BlazingAgendaItems implements ItemRegistryContainer {
         .initializer(group -> {
             group.addButton(ItemGroupButton.github(group, "https://github.com/BasiqueEvangelist/BlazingAgenda"));
             group.addButton(ItemGroupButton.modrinth(group, "https://modrinth.com/mod/blazing-agenda"));
-            group.addButton(ItemGroupButton.discord(group, "https://wispforest.io/discord"));
+            group.addButton(ItemGroupButton.discord(group, "https://discord.gg/bRTMbKdmZt"));
         })
         .build();
 
